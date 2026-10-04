@@ -17,19 +17,12 @@ const finalSpace = document.getElementById("final-space");
 const cosmicGalleries = document.querySelectorAll(".cosmic-gallery");
 const cosmicGateway = document.getElementById("cosmic-gateway");
 
-const writingSentinel = document.getElementById("writing-threshold-sentinel");
-const writingThreshold = document.getElementById("writing-threshold");
-
 const closingDot = document.getElementById("closing-dot");
 
 const indexButton = document.getElementById("indexButton");
 const indexMenu = document.getElementById("indexMenu");
 
 let thresholdOpened = false;
-let galleryDragging = false;
-let galleryDragStartX = 0;
-let galleryScrollStart = 0;
-let writingTransitionTriggered = false;
 
 
 /* =========================================================
@@ -42,13 +35,10 @@ if (indexButton && indexMenu) {
         indexMenu.classList.toggle("open");
     });
 
-
     indexMenu.querySelectorAll("a").forEach((link) => {
-
         link.addEventListener("click", () => {
             indexMenu.classList.remove("open");
         });
-
     });
 
 }
@@ -482,7 +472,7 @@ function setupCosmicGallery(gallery) {
 
 
 /* =========================================================
-   INITIALIZE ALL THREE COSMIC BOOKS
+   INITIALIZE ALL COSMIC BOOKS
 ========================================================= */
 
 cosmicGalleries.forEach(
@@ -545,85 +535,6 @@ if (cosmicGateway) {
             }, 1250);
 
         }
-    );
-
-}
-
-
-/* =========================================================
-   PROJECTS -> WRITING TRANSITION
-
-   White abstract female face line appears
-   exactly at the threshold between spaces.
-========================================================= */
-
-if (
-    writingSentinel &&
-    writingThreshold
-) {
-
-    const writingObserver =
-        new IntersectionObserver(
-
-            (entries) => {
-
-                entries.forEach(
-                    (entry) => {
-
-                        if (
-                            !entry.isIntersecting ||
-                            writingTransitionTriggered
-                        ) {
-
-                            return;
-
-                        }
-
-
-                        if (!thresholdOpened) {
-                            return;
-                        }
-
-
-                        writingTransitionTriggered =
-                            true;
-
-
-                        writingThreshold.classList.add(
-                            "active"
-                        );
-
-
-                        body.classList.add(
-                            "writing-entering"
-                        );
-
-
-                        setTimeout(() => {
-
-                            writingThreshold.classList.remove(
-                                "active"
-                            );
-
-
-                            body.classList.remove(
-                                "writing-entering"
-                            );
-
-                        }, 1650);
-
-                    }
-                );
-
-            },
-            {
-                threshold: 0.05
-            }
-        );
-
-
-    writingObserver.observe(
-        writingSentinel
     );
 
 }
@@ -919,9 +830,7 @@ if (closingDot) {
 
                     "threshold-entering",
 
-                    "gateway-opening",
-
-                    "writing-entering"
+                    "gateway-opening"
 
                 );
 
@@ -935,10 +844,6 @@ if (closingDot) {
 
 
                 thresholdOpened =
-                    false;
-
-
-                writingTransitionTriggered =
                     false;
 
 
