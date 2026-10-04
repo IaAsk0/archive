@@ -793,7 +793,8 @@ if (writingFragments.length) {
 
 
 /* =========================================================
-   CLOSING THRESHOLD -> RESET TO FIRST SCREEN
+   CLOSING THRESHOLD -> RETURN DIRECTLY
+   Final white point -> first white point
 ========================================================= */
 
 if (closingDot) {
@@ -803,77 +804,109 @@ if (closingDot) {
         () => {
 
             if (indexMenu) {
+                indexMenu.classList.remove("open");
+            }
 
-                indexMenu.classList.remove(
-                    "open"
+
+            /* -----------------------------------------
+               Reset gallery positions
+               ----------------------------------------- */
+
+            cosmicGalleries.forEach((gallery) => {
+
+                gallery.scrollTo({
+                    left: 0,
+                    behavior: "auto"
+                });
+
+            });
+
+
+            /* -----------------------------------------
+               Reset all visual states
+               ----------------------------------------- */
+
+            body.classList.remove(
+                "threshold-complete",
+                "threshold-entering",
+                "gateway-opening"
+            );
+
+
+            thresholdOpened = false;
+
+
+            if (thresholdOverlay) {
+
+                /*
+                    Make the Threshold appear immediately.
+                    No fade-out / fade-in delay here.
+                */
+
+                thresholdOverlay.style.transition = "none";
+
+                thresholdOverlay.style.pointerEvents =
+                    "auto";
+
+
+                /* Force browser to apply the reset immediately */
+
+                void thresholdOverlay.offsetWidth;
+
+
+                /* Restore normal transition for the next entry */
+
+                requestAnimationFrame(() => {
+
+                    thresholdOverlay.style.transition = "";
+
+                });
+
+            }
+
+
+            /* -----------------------------------------
+               Reset main site state
+               ----------------------------------------- */
+
+            if (main) {
+
+                main.setAttribute(
+                    "data-site-state",
+                    "threshold"
                 );
 
             }
 
 
-            window.scrollTo({
+            body.setAttribute(
+                "data-threshold-depth",
+                "0"
+            );
 
-                top:
-                    0,
 
-                behavior:
-                    "smooth"
+            /* -----------------------------------------
+               Reset sidebar state
+               ----------------------------------------- */
+
+            unitLinks.forEach((link) => {
+
+                link.classList.remove(
+                    "is-active"
+                );
 
             });
 
 
-            setTimeout(() => {
+            /* -----------------------------------------
+               Jump directly to the beginning
+               ----------------------------------------- */
 
-                body.classList.remove(
-
-                    "threshold-complete",
-
-                    "threshold-entering",
-
-                    "gateway-opening"
-
-                );
-
-
-                if (thresholdOverlay) {
-
-                    thresholdOverlay.style.pointerEvents =
-                        "auto";
-
-                }
-
-
-                thresholdOpened =
-                    false;
-
-
-                if (main) {
-
-                    main.setAttribute(
-                        "data-site-state",
-                        "threshold"
-                    );
-
-                }
-
-
-                body.setAttribute(
-                    "data-threshold-depth",
-                    "0"
-                );
-
-
-                unitLinks.forEach(
-                    (link) => {
-
-                        link.classList.remove(
-                            "is-active"
-                        );
-
-                    }
-                );
-
-            }, 850);
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "auto"
+            });
 
         }
     );
