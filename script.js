@@ -67,6 +67,7 @@ function animateCursorLight() {
     if (cursorLight) {
         lightX += (mouseX - lightX) * 0.08;
         lightY += (mouseY - lightY) * 0.08;
+
         cursorLight.style.left = `${lightX}px`;
         cursorLight.style.top = `${lightY}px`;
     }
@@ -85,6 +86,7 @@ function enterThreshold() {
     if (thresholdOpened) return;
 
     thresholdOpened = true;
+
     body.classList.add("threshold-entering");
 
     setTimeout(() => {
@@ -126,7 +128,13 @@ if (thresholdDot) {
 if (cosmicGallery) {
 
     cosmicGallery.addEventListener("wheel", (event) => {
-        if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+
+        if (
+            Math.abs(event.deltaY) <=
+            Math.abs(event.deltaX)
+        ) {
+            return;
+        }
 
         event.preventDefault();
 
@@ -134,47 +142,99 @@ if (cosmicGallery) {
             left: event.deltaY * 1.05,
             behavior: "auto"
         });
-    }, { passive: false });
+
+    }, {
+        passive: false
+    });
 
 
     cosmicGallery.addEventListener("pointerdown", (event) => {
+
         galleryDragging = true;
+
         galleryDragStartX = event.clientX;
         galleryScrollStart = cosmicGallery.scrollLeft;
+
         cosmicGallery.classList.add("is-dragging");
-        cosmicGallery.setPointerCapture(event.pointerId);
+
+        cosmicGallery.setPointerCapture(
+            event.pointerId
+        );
+
     });
 
 
     cosmicGallery.addEventListener("pointermove", (event) => {
+
         if (!galleryDragging) return;
 
-        const distance = event.clientX - galleryDragStartX;
+        const distance =
+            event.clientX -
+            galleryDragStartX;
 
-        cosmicGallery.scrollLeft = galleryScrollStart - distance;
+        cosmicGallery.scrollLeft =
+            galleryScrollStart -
+            distance;
+
     });
 
 
     const stopGalleryDrag = () => {
+
         galleryDragging = false;
-        cosmicGallery.classList.remove("is-dragging");
+
+        cosmicGallery.classList.remove(
+            "is-dragging"
+        );
+
     };
 
-    cosmicGallery.addEventListener("pointerup", stopGalleryDrag);
-    cosmicGallery.addEventListener("pointercancel", stopGalleryDrag);
-    cosmicGallery.addEventListener("pointerleave", () => {
-        if (galleryDragging) stopGalleryDrag();
-    });
+
+    cosmicGallery.addEventListener(
+        "pointerup",
+        stopGalleryDrag
+    );
+
+    cosmicGallery.addEventListener(
+        "pointercancel",
+        stopGalleryDrag
+    );
+
+    cosmicGallery.addEventListener(
+        "pointerleave",
+        () => {
+
+            if (galleryDragging) {
+                stopGalleryDrag();
+            }
+
+        }
+    );
 
 
     /* Keep slide position clean after resizing */
-    window.addEventListener("resize", () => {
-        const slideWidth = cosmicGallery.clientWidth;
-        if (!slideWidth) return;
 
-        const index = Math.round(cosmicGallery.scrollLeft / slideWidth);
-        cosmicGallery.scrollLeft = index * slideWidth;
-    });
+    window.addEventListener(
+        "resize",
+        () => {
+
+            const slideWidth =
+                cosmicGallery.clientWidth;
+
+            if (!slideWidth) return;
+
+            const index =
+                Math.round(
+                    cosmicGallery.scrollLeft /
+                    slideWidth
+                );
+
+            cosmicGallery.scrollLeft =
+                index * slideWidth;
+
+        }
+    );
+
 }
 
 
@@ -183,24 +243,48 @@ if (cosmicGallery) {
 ========================================================= */
 
 if (cosmicGateway) {
-    cosmicGateway.addEventListener("click", () => {
-        if (!thresholdOpened || body.classList.contains("gateway-opening")) return;
 
-        body.classList.add("gateway-opening");
+    cosmicGateway.addEventListener("click", () => {
+
+        if (
+            !thresholdOpened ||
+            body.classList.contains(
+                "gateway-opening"
+            )
+        ) {
+            return;
+        }
+
+
+        body.classList.add(
+            "gateway-opening"
+        );
+
 
         setTimeout(() => {
+
             if (projects) {
+
                 projects.scrollIntoView({
                     behavior: "auto",
                     block: "start"
                 });
+
             }
+
         }, 700);
 
+
         setTimeout(() => {
-            body.classList.remove("gateway-opening");
+
+            body.classList.remove(
+                "gateway-opening"
+            );
+
         }, 1250);
+
     });
+
 }
 
 
@@ -209,27 +293,67 @@ if (cosmicGateway) {
    White female body line appears exactly at the threshold.
 ========================================================= */
 
-if (writingSentinel && writingThreshold) {
+if (
+    writingSentinel &&
+    writingThreshold
+) {
 
-    const writingObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (!entry.isIntersecting || writingTransitionTriggered) return;
-            if (!thresholdOpened) return;
+    const writingObserver =
+        new IntersectionObserver(
+            (entries) => {
 
-            writingTransitionTriggered = true;
-            writingThreshold.classList.add("active");
-            body.classList.add("writing-entering");
+                entries.forEach((entry) => {
 
-            setTimeout(() => {
-                writingThreshold.classList.remove("active");
-                body.classList.remove("writing-entering");
-            }, 1650);
-        });
-    }, {
-        threshold: 0.05
-    });
+                    if (
+                        !entry.isIntersecting ||
+                        writingTransitionTriggered
+                    ) {
+                        return;
+                    }
 
-    writingObserver.observe(writingSentinel);
+                    if (!thresholdOpened) {
+                        return;
+                    }
+
+
+                    writingTransitionTriggered =
+                        true;
+
+
+                    writingThreshold.classList.add(
+                        "active"
+                    );
+
+                    body.classList.add(
+                        "writing-entering"
+                    );
+
+
+                    setTimeout(() => {
+
+                        writingThreshold.classList.remove(
+                            "active"
+                        );
+
+                        body.classList.remove(
+                            "writing-entering"
+                        );
+
+                    }, 1650);
+
+                });
+
+            },
+            {
+                threshold: 0.05
+            }
+        );
+
+
+    writingObserver.observe(
+        writingSentinel
+    );
+
 }
 
 
@@ -237,50 +361,142 @@ if (writingSentinel && writingThreshold) {
    UNIT STATE + SIDEBAR
 ========================================================= */
 
-const unitLinks = document.querySelectorAll("[data-unit-link]");
-const unitSections = [
-    { element: cosmicField, state: "cosmic", depth: "1" },
-    { element: projects, state: "projects", depth: "2" },
-    { element: writing, state: "writing", depth: "3" },
-    { element: finalSpace, state: "final", depth: "4" }
-];
+const unitLinks =
+    document.querySelectorAll(
+        "[data-unit-link]"
+    );
 
-function setActiveUnit(state, depth) {
-    if (main) {
-        main.setAttribute("data-site-state", state);
+
+const unitSections = [
+
+    {
+        element: cosmicField,
+        state: "cosmic",
+        depth: "1"
+    },
+
+    {
+        element: projects,
+        state: "projects",
+        depth: "2"
+    },
+
+    {
+        element: writing,
+        state: "writing",
+        depth: "3"
+    },
+
+    {
+        element: finalSpace,
+        state: "final",
+        depth: "4"
     }
 
-    body.setAttribute("data-threshold-depth", depth);
+];
+
+
+function setActiveUnit(
+    state,
+    depth
+) {
+
+    if (main) {
+
+        main.setAttribute(
+            "data-site-state",
+            state
+        );
+
+    }
+
+
+    body.setAttribute(
+        "data-threshold-depth",
+        depth
+    );
+
 
     unitLinks.forEach((link) => {
+
         link.classList.toggle(
             "is-active",
             link.dataset.unitLink === state
         );
+
     });
+
 }
 
+
 if (unitSections.length) {
-    const unitObserver = new IntersectionObserver((entries) => {
-        const visible = entries
-            .filter((entry) => entry.isIntersecting)
-            .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
 
-        if (!visible.length || !thresholdOpened) return;
+    const unitObserver =
+        new IntersectionObserver(
+            (entries) => {
 
-        const target = visible[0].target;
-        const found = unitSections.find((unit) => unit.element === target);
+                const visible =
+                    entries
+                        .filter(
+                            (entry) =>
+                                entry.isIntersecting
+                        )
+                        .sort(
+                            (a, b) =>
+                                b.intersectionRatio -
+                                a.intersectionRatio
+                        );
 
-        if (found) {
-            setActiveUnit(found.state, found.depth);
-        }
-    }, {
-        threshold: [0.2, 0.45, 0.7]
-    });
+
+                if (
+                    !visible.length ||
+                    !thresholdOpened
+                ) {
+                    return;
+                }
+
+
+                const target =
+                    visible[0].target;
+
+
+                const found =
+                    unitSections.find(
+                        (unit) =>
+                            unit.element === target
+                    );
+
+
+                if (found) {
+
+                    setActiveUnit(
+                        found.state,
+                        found.depth
+                    );
+
+                }
+
+            },
+            {
+                threshold: [
+                    0.2,
+                    0.45,
+                    0.7
+                ]
+            }
+        );
+
 
     unitSections.forEach((unit) => {
-        if (unit.element) unitObserver.observe(unit.element);
+
+        if (unit.element) {
+            unitObserver.observe(
+                unit.element
+            );
+        }
+
     });
+
 }
 
 
@@ -288,28 +504,79 @@ if (unitSections.length) {
    WRITING FLOAT
 ========================================================= */
 
-const writingFragments = document.querySelectorAll(".writing-fragment");
+const writingFragments =
+    document.querySelectorAll(
+        ".writing-fragment"
+    );
+
 
 if (writingFragments.length) {
-    window.addEventListener("mousemove", (event) => {
-        if (!writing) return;
 
-        const rect = writing.getBoundingClientRect();
-        const inWriting = rect.top < window.innerHeight && rect.bottom > 0;
+    window.addEventListener(
+        "mousemove",
+        (event) => {
 
-        if (!inWriting) return;
+            if (!writing) {
+                return;
+            }
 
-        const x = event.clientX / window.innerWidth - 0.5;
-        const y = event.clientY / window.innerHeight - 0.5;
 
-        writingFragments.forEach((fragment, index) => {
-            const strength = 2 + index * 0.7;
-            const moveX = x * strength;
-            const moveY = y * strength;
+            const rect =
+                writing.getBoundingClientRect();
 
-            fragment.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
-        });
-    });
+
+            const inWriting =
+                rect.top <
+                    window.innerHeight &&
+                rect.bottom >
+                    0;
+
+
+            if (!inWriting) {
+                return;
+            }
+
+
+            const x =
+                event.clientX /
+                window.innerWidth -
+                0.5;
+
+
+            const y =
+                event.clientY /
+                window.innerHeight -
+                0.5;
+
+
+            writingFragments.forEach(
+                (fragment, index) => {
+
+                    const strength =
+                        2 + index * 0.7;
+
+
+                    const moveX =
+                        x * strength;
+
+
+                    const moveY =
+                        y * strength;
+
+
+                    fragment.style.transform =
+                        `translate3d(
+                            ${moveX}px,
+                            ${moveY}px,
+                            0
+                        )`;
+
+                }
+            );
+
+        }
+    );
+
 }
 
 
@@ -318,40 +585,77 @@ if (writingFragments.length) {
 ========================================================= */
 
 if (closingDot) {
-    closingDot.addEventListener("click", () => {
-        if (indexMenu) indexMenu.classList.remove("open");
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+    closingDot.addEventListener(
+        "click",
+        () => {
 
-        setTimeout(() => {
-            body.classList.remove(
-                "threshold-complete",
-                "threshold-entering",
-                "gateway-opening",
-                "writing-entering"
-            );
-
-            if (thresholdOverlay) {
-                thresholdOverlay.style.pointerEvents = "auto";
+            if (indexMenu) {
+                indexMenu.classList.remove(
+                    "open"
+                );
             }
 
-            thresholdOpened = false;
-            writingTransitionTriggered = false;
 
-            if (main) {
-                main.setAttribute("data-site-state", "threshold");
-            }
-
-            body.setAttribute("data-threshold-depth", "0");
-
-            unitLinks.forEach((link) => {
-                link.classList.remove("is-active");
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
             });
-        }, 850);
-    });
+
+
+            setTimeout(() => {
+
+                body.classList.remove(
+                    "threshold-complete",
+                    "threshold-entering",
+                    "gateway-opening",
+                    "writing-entering"
+                );
+
+
+                if (thresholdOverlay) {
+
+                    thresholdOverlay.style.pointerEvents =
+                        "auto";
+
+                }
+
+
+                thresholdOpened = false;
+
+                writingTransitionTriggered =
+                    false;
+
+
+                if (main) {
+
+                    main.setAttribute(
+                        "data-site-state",
+                        "threshold"
+                    );
+
+                }
+
+
+                body.setAttribute(
+                    "data-threshold-depth",
+                    "0"
+                );
+
+
+                unitLinks.forEach((link) => {
+
+                    link.classList.remove(
+                        "is-active"
+                    );
+
+                });
+
+            }, 850);
+
+        }
+    );
+
 }
 
 
@@ -360,9 +664,20 @@ if (closingDot) {
 ========================================================= */
 
 if (main) {
-    main.setAttribute("data-site-state", "threshold");
+
+    main.setAttribute(
+        "data-site-state",
+        "threshold"
+    );
+
 }
 
-body.setAttribute("data-threshold-depth", "0");
+body.setAttribute(
+    "data-threshold-depth",
+    "0"
+);
 
-window.scrollTo(0, 0);
+window.scrollTo(
+    0,
+    0
+);
