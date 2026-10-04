@@ -667,7 +667,6 @@ body.gateway-opening main { filter: blur(1px); }
 #writing-threshold.active .body-line:nth-child(4) { animation-delay: .18s; }
 #writing-threshold.active .body-line:nth-child(5) { animation-delay: .24s; }
 #writing-threshold.active .body-line:nth-child(6) { animation-delay: .30s; }
-#writing-threshold.active .body-line:nth-child(7) { animation-delay: .36s; }
 
 /* =========================================================
    UNIT 03 — WRITING ON MY BODY
