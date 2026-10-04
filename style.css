@@ -394,6 +394,19 @@ main {
     font-size: 10px;
 }
 
+.cosmic-theme-title {
+    margin: 8px 0 28px;
+    font-size: clamp(20px, 2.2vw, 34px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -.025em;
+    color: rgba(239,239,235,.82);
+}
+
+.cosmic-theme {
+    min-height: 1120px;
+}
+
 .cosmic-gallery {
     width: calc(100% + 12vw);
     margin-left: -6vw;
@@ -642,31 +655,38 @@ body.gateway-opening main { filter: blur(1px); }
     visibility: visible;
 }
 
-.body-threshold-line {
-    width: min(31vw, 290px);
-    height: min(68vh, 560px);
+.face-threshold-line {
+    width: min(34vw, 360px);
+    height: min(72vh, 600px);
     overflow: visible;
+    filter: drop-shadow(0 0 12px rgba(255,255,255,.08));
 }
 
-.body-line {
+.face-line {
     fill: none;
     stroke: rgba(255,255,255,.9);
-    stroke-width: 1.1;
+    stroke-width: 1.05;
     vector-effect: non-scaling-stroke;
     opacity: 0;
-    stroke-dasharray: 800;
-    stroke-dashoffset: 800;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
 }
 
-#writing-threshold.active .body-line {
-    animation: body-draw 1.35s cubic-bezier(.77,0,.175,1) forwards;
+#writing-threshold.active .face-line {
+    animation: face-draw 1.5s cubic-bezier(.77,0,.175,1) forwards;
 }
 
-#writing-threshold.active .body-line:nth-child(2) { animation-delay: .06s; }
-#writing-threshold.active .body-line:nth-child(3) { animation-delay: .12s; }
-#writing-threshold.active .body-line:nth-child(4) { animation-delay: .18s; }
-#writing-threshold.active .body-line:nth-child(5) { animation-delay: .24s; }
-#writing-threshold.active .body-line:nth-child(6) { animation-delay: .30s; }
+#writing-threshold.active .face-line:nth-child(2) { animation-delay: .08s; }
+#writing-threshold.active .face-line:nth-child(3) { animation-delay: .15s; }
+#writing-threshold.active .face-line:nth-child(4) { animation-delay: .22s; }
+#writing-threshold.active .face-line:nth-child(5) { animation-delay: .29s; }
+#writing-threshold.active .face-line:nth-child(6) { animation-delay: .36s; }
+#writing-threshold.active .face-line:nth-child(7) { animation-delay: .43s; }
+#writing-threshold.active .face-line:nth-child(8) { animation-delay: .50s; }
+#writing-threshold.active .face-line:nth-child(9) { animation-delay: .57s; }
+#writing-threshold.active .face-line:nth-child(10) { animation-delay: .64s; }
+#writing-threshold.active .face-line:nth-child(11) { animation-delay: .71s; }
+#writing-threshold.active .face-line:nth-child(12) { animation-delay: .78s; }
 
 /* =========================================================
    UNIT 03 — WRITING ON MY BODY
@@ -881,7 +901,7 @@ body.gateway-opening main { filter: blur(1px); }
     100% { transform: scale(3.6); opacity: 0; }
 }
 
-@keyframes body-draw {
+@keyframes face-draw {
     0% { opacity: 0; stroke-dashoffset: 800; }
     15% { opacity: 1; }
     100% { opacity: 1; stroke-dashoffset: 0; }
@@ -1003,7 +1023,7 @@ body.gateway-opening main { filter: blur(1px); }
         margin-bottom: 25px;
     }
 
-    .body-threshold-line {
+    .face-threshold-line {
         width: 52vw;
         height: 62vh;
     }
