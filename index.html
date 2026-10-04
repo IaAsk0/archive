@@ -7,20 +7,17 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body data-room="threshold" data-threshold-depth="0">
+<body>
 
     <!-- =====================================================
-         THRESHOLD / ENTRY
+         THRESHOLD INTRO
          ===================================================== -->
 
-    <div id="threshold-overlay" aria-hidden="false">
+    <div id="threshold-overlay" aria-hidden="true">
+
         <div id="cursor-light"></div>
 
-        <button
-            id="threshold-dot"
-            type="button"
-            aria-label="Enter Isa Wu's world"
-        >
+        <button id="threshold-dot" type="button" aria-label="Enter Isa Wu's world">
             <span class="threshold-dot-core"></span>
             <span class="threshold-dot-glow"></span>
         </button>
@@ -32,11 +29,14 @@
             <span></span>
         </div>
         <div id="threshold-void"></div>
+
         <div id="threshold-word">THRESHOLD</div>
+
     </div>
 
 
-    <!-- atmospheric grain / light -->
+    <!-- SITE ATMOSPHERE -->
+
     <div id="site-atmosphere" aria-hidden="true">
         <div class="atmosphere-light atmosphere-light-01"></div>
         <div class="atmosphere-light atmosphere-light-02"></div>
@@ -44,21 +44,19 @@
     </div>
 
 
-    <!-- =====================================================
-         SIDEBAR
-         Real spatial order: Cosmic / Projects / Writing
-         ===================================================== -->
+    <!-- LEFT SIDEBAR -->
 
     <aside class="sidebar">
-        <a href="#threshold" class="site-name" id="site-name">Isa Wu</a>
 
-        <nav class="side-nav" aria-label="Site navigation">
+        <a href="#top" class="site-name">Isa Wu</a>
+
+        <nav class="side-nav">
 
             <div class="nav-group">
                 <a href="#cosmic-field" class="nav-title" data-unit-link="cosmic">
                     Cosmic field
                 </a>
-                <a href="#cosmic-field" class="nav-sub">01: A Lost City Where<br>I Call Home</a>
+                <a href="#lost-city">01: A Lost City Where<br>I Call Home</a>
             </div>
 
             <div class="nav-group">
@@ -77,141 +75,120 @@
                 </a>
             </div>
 
-            <div class="nav-group nav-secondary">
+            <div class="nav-group">
                 <a href="#about" class="nav-title">About</a>
                 <a href="#contact" class="nav-title">Contact</a>
             </div>
+
         </nav>
+
     </aside>
 
 
-    <!-- =====================================================
-         MOBILE HEADER
-         ===================================================== -->
+    <!-- MOBILE HEADER -->
 
     <header class="mobile-header">
-        <a href="#threshold" class="mobile-site-name">Isa Wu</a>
+        <a href="#top">Isa Wu</a>
         <button id="indexButton" type="button">Index</button>
     </header>
 
+
+    <!-- MOBILE INDEX -->
+
     <nav class="index-menu" id="indexMenu">
-        <a href="#cosmic-field" data-unit-link="cosmic">Cosmic field</a>
-        <a href="#projects" data-unit-link="projects">Projects</a>
-        <a href="#writing" data-unit-link="writing">Writing on my body</a>
+        <a href="#cosmic-field">Cosmic field</a>
+        <a href="#lost-city">01: A Lost City Where I Call Home</a>
+        <a href="#projects">Projects</a>
+        <a href="#lotus">001: Lotus</a>
+        <a href="#letter">002: A Letter for Netoсhka Nezvanova</a>
+        <a href="#double-memory">003: My Double Memory</a>
+        <a href="#jiaji">004: I Am Not Jiaji</a>
+        <a href="#writing">Writing on my body</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
     </nav>
 
 
-    <!-- =====================================================
-         MAIN / THREE SPACES
-         ===================================================== -->
-
-    <main id="top">
+    <main id="top" data-site-state="threshold">
 
         <!-- =================================================
-             SPACE 01 — COSMIC FIELD
-             Locked full-screen room.
-             Internal movement is horizontal only.
-             The planet is its exit / threshold.
+             UNIT 01 — COSMIC FIELD
+             Horizontal image book
              ================================================= -->
 
-        <section
-            class="space cosmic-field"
-            id="cosmic-field"
-            data-unit="cosmic"
-        >
-            <div class="space-title">Cosmic field</div>
+        <section class="section cosmic-field" id="cosmic-field" data-unit="cosmic">
 
-            <div class="cosmic-meta">
-                <span class="meta-line"></span>
-                <span>field / image / place</span>
-                <span class="meta-line"></span>
+            <div class="section-title">Cosmic field</div>
+
+            <div class="cosmic-intro">
+                <span class="cosmic-intro-line"></span>
+                <p>A field of images, places and fragments before the work takes form.</p>
+                <span class="cosmic-intro-line"></span>
             </div>
 
-            <div class="cosmic-gallery" id="cosmic-gallery">
+            <article class="photo-project" id="lost-city">
 
-                <article class="cosmic-slide is-current">
-                    <div class="cosmic-frame image-placeholder">
-                        PHOTOGRAPH / 01
-                    </div>
-                    <div class="cosmic-caption">
-                        <span>
-                            <b>01:</b><br>
-                            A Lost City Where I Call Home
-                        </span>
-                        <span>01 / 03</span>
-                    </div>
-                </article>
+                <div class="project-number">01:</div>
 
-                <article class="cosmic-slide">
-                    <div class="cosmic-frame image-placeholder">
-                        PHOTOGRAPH / 02
-                    </div>
-                    <div class="cosmic-caption">
-                        <span>
-                            <b>02:</b><br>
-                            A Lost City Where I Call Home
-                        </span>
-                        <span>02 / 03</span>
-                    </div>
-                </article>
+                <div class="cosmic-gallery" id="cosmic-gallery">
 
-                <article class="cosmic-slide">
-                    <div class="cosmic-frame image-placeholder">
-                        PHOTOGRAPH / 03
-                    </div>
-                    <div class="cosmic-caption">
-                        <span>
-                            <b>03:</b><br>
-                            A Lost City Where I Call Home
-                        </span>
-                        <span>03 / 03</span>
-                    </div>
-                </article>
+                    <figure class="cosmic-gallery-slide is-current">
+                        <div class="cosmic-image image-placeholder">
+                            PHOTOGRAPH / 01
+                        </div>
+                        <figcaption>
+                            <span>A Lost City Where I Call Home</span>
+                            <span>01 / 03</span>
+                        </figcaption>
+                    </figure>
 
-            </div>
+                    <figure class="cosmic-gallery-slide">
+                        <div class="cosmic-image image-placeholder">
+                            PHOTOGRAPH / 02
+                        </div>
+                        <figcaption>
+                            <span>A Lost City Where I Call Home</span>
+                            <span>02 / 03</span>
+                        </figcaption>
+                    </figure>
 
-            <div class="gallery-arrows" aria-hidden="true">
-                <span>←</span>
-                <span class="gallery-dots">· · ·</span>
-                <span>→</span>
-            </div>
+                    <figure class="cosmic-gallery-slide">
+                        <div class="cosmic-image image-placeholder">
+                            PHOTOGRAPH / 03
+                        </div>
+                        <figcaption>
+                            <span>A Lost City Where I Call Home</span>
+                            <span>03 / 03</span>
+                        </figcaption>
+                    </figure>
 
-            <!-- The planet is an independent threshold, not a scroll target. -->
-            <div class="cosmic-gateway-wrap">
-                <button
-                    id="cosmic-gateway"
-                    class="cosmic-gateway"
-                    type="button"
-                    aria-label="Enter Projects"
-                >
-                    <span class="planet-halo"></span>
-                    <span class="planet-orbit planet-orbit-01"></span>
-                    <span class="planet-orbit planet-orbit-02"></span>
-                    <span class="planet-body"></span>
-                    <span class="planet-edge"></span>
-                </button>
-                <span class="gateway-label">enter the next field</span>
-            </div>
+                </div>
 
-            <span class="space-index">01 / 03</span>
+                <div class="gallery-hint">drag / scroll horizontally</div>
+
+                <!-- THRESHOLD TO UNIT 02 -->
+                <div class="cosmic-gateway-wrap">
+                    <button id="cosmic-gateway" class="cosmic-gateway" type="button" aria-label="Enter Projects">
+                        <span class="gateway-orbit gateway-orbit-01"></span>
+                        <span class="gateway-orbit gateway-orbit-02"></span>
+                        <span class="gateway-core"></span>
+                    </button>
+                    <span class="gateway-label">enter projects</span>
+                </div>
+
+            </article>
+
         </section>
 
 
         <!-- =================================================
-             SPACE 02 — PROJECTS
-             Vertical room. Four projects remain.
-             The star at the end is its exit / threshold.
+             UNIT 02 — PROJECTS
+             Vertical sequence, four works
              ================================================= -->
 
-        <section
-            class="space projects"
-            id="projects"
-            data-unit="projects"
-        >
-            <div class="space-title">Projects</div>
-            <span class="space-index">02 / 03</span>
+        <section class="section projects" id="projects" data-unit="projects">
+
+            <div class="section-title">Projects</div>
 
             <article class="project project-001" id="lotus">
                 <div class="project-number">001:</div>
@@ -244,141 +221,121 @@
                 <div class="image-placeholder image-small">I AM NOT JIAJI / STILL</div>
             </article>
 
-            <!-- second threshold -->
-            <div class="writing-gateway-wrap">
-                <button
-                    id="writing-gateway"
-                    class="writing-gateway"
-                    type="button"
-                    aria-label="Enter Writing on my body"
-                >
-                    <span class="writing-star-aura"></span>
-                    <span class="writing-star-core"></span>
-                    <span class="writing-star-ray ray-01"></span>
-                    <span class="writing-star-ray ray-02"></span>
-                    <span class="writing-star-ray ray-03"></span>
-                    <span class="writing-star-ray ray-04"></span>
-                </button>
-                <span class="writing-gateway-label">enter the body</span>
-            </div>
+            <!-- Sentinel for the body transition -->
+            <div id="writing-threshold-sentinel" aria-hidden="true"></div>
+
         </section>
 
 
-        <!-- =================================================
-             THRESHOLD BETWEEN PROJECTS AND BODY
-             Face floats up, then becomes embedded in darkness.
-             ================================================= -->
+        <!-- TRANSITION: PROJECTS -> WRITING ON MY BODY -->
 
         <div id="writing-threshold" aria-hidden="true">
-            <div class="writing-threshold-water"></div>
-            <div class="writing-threshold-face">
-                <img src="assets/face-outline.png" alt="">
-            </div>
-            <span class="writing-threshold-label">WRITING ON MY BODY</span>
+            <svg class="body-threshold-line" viewBox="0 0 240 500" preserveAspectRatio="xMidYMid meet">
+                <circle class="body-line body-head" cx="120" cy="48" r="22"></circle>
+                <path class="body-line" d="M96 76 C82 91 76 112 74 138 C71 168 82 192 93 214 C101 231 104 252 101 279 C98 312 88 350 81 391"></path>
+                <path class="body-line" d="M144 76 C158 91 164 112 166 138 C169 168 158 192 147 214 C139 231 136 252 139 279 C142 312 152 350 159 391"></path>
+                <path class="body-line" d="M74 138 C91 147 149 147 166 138"></path>
+                <path class="body-line" d="M93 214 C108 226 132 226 147 214"></path>
+                <path class="body-line" d="M101 279 C112 286 128 286 139 279"></path>
+                <path class="body-line" d="M81 391 C101 405 139 405 159 391"></path>
+            </svg>
         </div>
 
 
         <!-- =================================================
-             SPACE 03 — WRITING ON MY BODY
-             Black space / underwater light / body-shaped text.
+             UNIT 03 — WRITING ON MY BODY
+             Floating fragments
              ================================================= -->
 
-        <section
-            class="space writing"
-            id="writing"
-            data-unit="writing"
-        >
-            <div class="space-title">Writing on my body</div>
-            <span class="space-index">03 / 03</span>
+        <section class="section writing" id="writing" data-unit="writing">
 
-            <div class="water-field" aria-hidden="true">
-                <div class="water-sheet water-sheet-01"></div>
-                <div class="water-sheet water-sheet-02"></div>
-                <div class="water-sheet water-sheet-03"></div>
-                <div class="water-light water-light-01"></div>
-                <div class="water-light water-light-02"></div>
-                <div class="water-light water-light-03"></div>
-            </div>
+            <div class="section-title">Writing on my body</div>
 
-            <!-- user's body drawing = spatial skeleton for the poem -->
-            <div class="writing-body" aria-hidden="true">
-                <img src="assets/body-outline.png" alt="">
-            </div>
+            <div class="writing-orbit writing-orbit-01"></div>
+            <div class="writing-orbit writing-orbit-02"></div>
+            <div class="writing-mark">03</div>
 
-            <!-- language follows the imagined body contour -->
-            <div class="body-text body-text-01">
-                我记得自己诞生在一群<br>
-                跳动的白色粒子之间
-            </div>
-
-            <div class="body-text body-text-02">
+            <div class="writing-fragment fragment-01">
+                我记得自己诞生在一群跳动的白色粒子之间<br>
                 世界是黑色的<br>
-                如同精疲力竭那样的黑白
-            </div>
-
-            <div class="body-text body-text-03">
+                如同精疲力竭那样的黑白<br>
                 蕴含多变的活力
             </div>
 
-            <div class="body-text body-text-04">
+            <div class="writing-fragment fragment-02">
                 记忆里有轻盈飘渺的蚊帐<br>
-                冰凉的竹椅　竹床<br>
+                冰凉的竹椅<br>
+                竹床<br>
                 温热的躯体
             </div>
 
-            <div class="body-text body-text-05">
-                ...
+            <div class="writing-fragment fragment-03">
+                Memory does not stay<br>
+                where we leave it.
             </div>
+
+            <div class="writing-fragment fragment-04">...</div>
+
         </section>
 
 
         <!-- =================================================
-             FINAL / ABOUT / CONTACT
+             ABOUT / CONTACT / SUMMARY
+             One final simple surface
              ================================================= -->
 
-        <section class="final-space" id="about-contact">
+        <section class="section final-space" id="final-space">
 
-            <div class="final-heading">About / Contact</div>
+            <div class="section-title">About / Contact</div>
 
-            <div class="final-columns">
-                <div id="about" class="final-column">
-                    <span class="final-label">About</span>
-                    <p>
-                        Isa Wu is a filmmaker and artist working across film,
-                        moving image and writing.
-                    </p>
-                    <p>
-                        Her work explores memory, space, intimacy, bodies and
-                        forms of haunting.
-                    </p>
+            <div class="final-grid">
+
+                <div class="final-block" id="about">
+                    <div class="final-label">About</div>
+                    <div class="about-text">
+                        <p>Isa Wu is a filmmaker and artist working across film, moving image and writing.</p>
+                        <p>Her work explores memory, space, intimacy, bodies and forms of haunting.</p>
+                    </div>
                 </div>
 
-                <div id="contact" class="final-column">
-                    <span class="final-label">Contact</span>
-                    <a href="mailto:isa2605824@gmail.com">isa2605824@gmail.com</a>
-                    <a href="#">Instagram</a>
-                    <a href="#">Vimeo</a>
+                <div class="final-block" id="contact">
+                    <div class="final-label">Contact</div>
+                    <div class="contact-info">
+                        <a href="mailto:your@email.com">your@email.com</a>
+                        <a href="#">Instagram</a>
+                        <a href="#">Vimeo</a>
+                    </div>
                 </div>
+
             </div>
 
-            <div class="final-note">
+            <div class="final-summary">
                 Film / Moving Image / Writing / Image
             </div>
 
-            <button
-                id="closing-dot"
-                class="closing-dot"
-                type="button"
-                aria-label="Return to threshold"
-            >
-                <span class="closing-dot-core"></span>
-                <span class="closing-dot-glow"></span>
-                <span class="closing-dot-label">return</span>
-            </button>
         </section>
 
     </main>
 
+
+    <!-- =====================================================
+         CLOSING THRESHOLD
+         Returns to the same first black screen
+         ===================================================== -->
+
+    <footer id="closing-threshold" class="closing-threshold">
+
+        <button id="closing-dot" type="button" aria-label="Return to threshold">
+            <span class="closing-dot-core"></span>
+            <span class="closing-dot-glow"></span>
+        </button>
+
+        <span class="closing-year">Isa Wu · 2026</span>
+
+    </footer>
+
+
     <script src="script.js"></script>
+
 </body>
 </html>
