@@ -1,16 +1,9 @@
 import './Threshold.css'
 
-export default function Threshold({ onEnter }) {
+export default function Threshold() {
   return (
-    <section className="threshold">
-      <button
-        type="button"
-        className="threshold__point"
-        aria-label="Enter"
-        onClick={onEnter}
-      >
-        <span />
-      </button>
-    </section>
+    <main className="threshold-test">
+      <div className="threshold-test__point" />
+    </main>
   )
 }
