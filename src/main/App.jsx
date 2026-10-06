@@ -1,7 +1,8 @@
 import { useState } from 'react'
 
-import Threshold from './threshold/Threshold.jsx'
-import CosmicField from './rooms/cosmic-field/CosmicField.jsx'
+import Threshold from '../threshold/Threshold.jsx'
+import CosmicField from '../rooms/cosmic-field/CosmicField.jsx'
+import Projects from '../rooms/projects/Projects.jsx'
 
 export default function App() {
   const [room, setRoom] = useState('threshold')
@@ -22,11 +23,13 @@ export default function App() {
     )
   }
 
-  return (
-    <main className="app">
-      <div className="app-placeholder">
-        PROJECTS
-      </div>
-    </main>
-  )
+  if (room === 'projects') {
+    return (
+      <Projects
+        onEnterWriting={() => setRoom('writing')}
+      />
+    )
+  }
+
+  return null
 }
