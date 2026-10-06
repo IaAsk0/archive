@@ -1,1085 +1,451 @@
-/* =========================================================
-   ISA WU — THRESHOLD / THREE SPACES
-========================================================= */
-
-* {
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-:root {
-    --black: #050606;
-    --black-2: #0a0b0b;
-    --black-3: #111212;
-    --white: #efefeb;
-    --white-soft: rgba(239,239,235,.68);
-    --white-faint: rgba(239,239,235,.28);
-    --line: rgba(239,239,235,.16);
-    --grey: #9b9c96;
-    --muted: #777872;
-}
-
-body {
-    margin: 0;
-    background: var(--black);
-    color: var(--white);
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 13px;
-    line-height: 1.4;
-    overflow-x: hidden;
-    transition: background 1s ease, color 1s ease;
-}
-
-button,
-a {
-    -webkit-tap-highlight-color: transparent;
-}
-
-/* =========================================================
-   THRESHOLD INTRO
-========================================================= */
-
-#threshold-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    background: radial-gradient(circle at center, #101212 0%, #070808 34%, #020303 100%);
-    cursor: crosshair;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 1.2s cubic-bezier(.77,0,.175,1), visibility 1.2s;
-}
-
-#threshold-overlay::before {
-    content: "";
-    position: absolute;
-    inset: -20%;
-    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.045), rgba(255,255,255,.018) 14%, transparent 36%);
-    animation: threshold-breath 5s ease-in-out infinite;
-}
-
-#threshold-overlay::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: .055;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
-    mix-blend-mode: screen;
-}
-
-#cursor-light {
-    position: fixed;
-    width: 180px;
-    height: 180px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    border-radius: 50%;
-    pointer-events: none;
-    background: radial-gradient(circle, rgba(255,255,255,.075) 0%, rgba(255,255,255,.025) 28%, transparent 70%);
-    opacity: .65;
-}
-
-#threshold-dot {
-    position: relative;
-    width: 12px;
-    height: 12px;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 3;
-    appearance: none;
-}
-
-.threshold-dot-core {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 5px;
-    height: 5px;
-    transform: translate(-50%,-50%);
-    background: #f3f3ef;
-    border-radius: 50%;
-    box-shadow: 0 0 6px rgba(255,255,255,.75), 0 0 15px rgba(255,255,255,.25);
-    transition: transform .4s ease, box-shadow .4s ease;
-}
-
-.threshold-dot-glow {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 80px;
-    height: 80px;
-    transform: translate(-50%,-50%);
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,.08), rgba(255,255,255,.025) 27%, transparent 70%);
-    opacity: .55;
-    transition: width .55s ease, height .55s ease, opacity .55s ease;
-}
-
-#threshold-dot:hover .threshold-dot-core {
-    transform: translate(-50%,-50%) scale(1.45);
-    box-shadow: 0 0 9px rgba(255,255,255,.9), 0 0 28px rgba(255,255,255,.35);
-}
-
-#threshold-dot:hover .threshold-dot-glow {
-    width: 130px;
-    height: 130px;
-    opacity: .9;
-}
-
-#threshold-ring,
-#threshold-light,
-#threshold-void {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    pointer-events: none;
-}
-
-#threshold-ring {
-    width: 10px;
-    height: 10px;
-    transform: translate(-50%,-50%) scale(1);
-    border: 1px solid rgba(255,255,255,.25);
-    border-radius: 50%;
-    opacity: 0;
-}
-
-#threshold-light {
-    width: 4px;
-    height: 4px;
-    transform: translate(-50%,-50%);
-    opacity: 0;
-}
-
-#threshold-light span {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    display: block;
-    background: rgba(255,255,255,.25);
-    filter: blur(12px);
-    border-radius: 50%;
-}
-
-#threshold-light span:nth-child(1) { width: 260px; height: 260px; }
-#threshold-light span:nth-child(2) { width: 120px; height: 120px; }
-#threshold-light span:nth-child(3) { width: 40px; height: 40px; }
-
-#threshold-void {
-    width: 5px;
-    height: 5px;
-    transform: translate(-50%,-50%) scale(1);
-    border-radius: 50%;
-    background: #000;
-    opacity: 0;
-}
-
-#threshold-word {
-    position: absolute;
-    left: 50%;
-    top: calc(50% + 65px);
-    transform: translateX(-50%);
-    color: rgba(255,255,255,.3);
-    font-size: 8px;
-    letter-spacing: .4em;
-    text-indent: .4em;
-    font-family: monospace;
-    opacity: .6;
-}
-
-body.threshold-entering #threshold-dot { pointer-events: none; }
-body.threshold-entering .threshold-dot-core { transform: translate(-50%,-50%) scale(.4); box-shadow: 0 0 30px rgba(255,255,255,.9); }
-body.threshold-entering #threshold-ring { opacity: 1; animation: threshold-ring-expand 1.5s cubic-bezier(.77,0,.175,1) forwards; }
-body.threshold-entering #threshold-light { opacity: 1; animation: threshold-flash 1.25s cubic-bezier(.77,0,.175,1) forwards; }
-body.threshold-entering #threshold-void { opacity: 1; animation: threshold-collapse 1.25s cubic-bezier(.77,0,.175,1) forwards; }
-body.threshold-complete #threshold-overlay { opacity: 0; visibility: hidden; pointer-events: none; }
-
-/* =========================================================
-   ATMOSPHERE
-========================================================= */
-
-#site-atmosphere {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 2;
-    opacity: 0;
-    transition: opacity 1.5s ease;
-}
-
-body.threshold-complete #site-atmosphere { opacity: 1; }
-
-.atmosphere-light {
-    position: absolute;
-    width: 45vw;
-    height: 45vw;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0;
-}
-
-.atmosphere-light-01 { left: 20%; top: 10%; background: radial-gradient(circle, rgba(125,130,124,.045), transparent 68%); }
-.atmosphere-light-02 { right: 0; bottom: 10%; background: radial-gradient(circle, rgba(200,210,200,.03), transparent 70%); }
-body.threshold-complete .atmosphere-light { opacity: 1; }
-
-.atmosphere-grain {
-    position: absolute;
-    inset: 0;
-    opacity: .02;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n2)' opacity='.7'/%3E%3C/svg%3E");
-    mix-blend-mode: screen;
-}
-
-/* =========================================================
-   SIDEBAR
-========================================================= */
-
-.sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 220px;
-    height: 100vh;
-    padding: 20px 18px;
-    z-index: 100;
-    border-right: 1px solid rgba(239,239,235,.12);
-    background: rgba(5,6,6,.78);
-    backdrop-filter: blur(12px);
-}
-
-.site-name {
-    display: block;
-    color: var(--white);
-    text-decoration: none;
-    font-size: 15px;
-    letter-spacing: -.02em;
-    margin-bottom: 55px;
-}
-
-.side-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 34px;
-}
-
-.nav-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.side-nav a {
-    color: rgba(239,239,235,.4);
-    text-decoration: none;
-    font-size: 11px;
-    line-height: 1.35;
-    transition: color .25s ease, opacity .25s ease, transform .25s ease;
-}
-
-.side-nav a:hover,
-.side-nav a.is-active {
-    color: var(--white);
-}
-
-.side-nav a:hover { transform: translateX(4px); }
-
-.side-nav .nav-title {
-    color: rgba(239,239,235,.72);
-    margin-bottom: 4px;
-    letter-spacing: .04em;
-}
-
-.side-nav .nav-title.is-active::before {
-    content: "";
-    display: inline-block;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--white);
-    margin: 0 7px 2px 0;
-    box-shadow: 0 0 7px rgba(255,255,255,.4);
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-.mobile-header,
-.index-menu { display: none; }
-
-/* =========================================================
-   MAIN / GENERAL
-========================================================= */
-
-main {
-    margin-left: 220px;
-    position: relative;
-    transition: opacity 1s ease, filter 1s ease;
-}
-
-.section {
-    position: relative;
-    min-height: 100vh;
-    padding: 85px 6vw 140px;
-    isolation: isolate;
-    overflow: hidden;
-    background: var(--black);
-    color: var(--white);
-}
-
-.section-title {
-    position: relative;
-    z-index: 10;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: .12em;
-    color: rgba(239,239,235,.42);
-    margin-bottom: 70px;
-}
-
-/* =========================================================
-   UNIT 01 — COSMIC FIELD
-========================================================= */
-
-.cosmic-field {
-    min-height: 100vh;
-    padding-top: 100px;
-    background:
-        radial-gradient(circle at 52% 35%, rgba(115,120,115,.055), transparent 28%),
-        #030404;
-}
-
-.cosmic-field::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 6%;
-    width: 88%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.17), transparent);
-}
-
-.cosmic-intro {
-    width: 230px;
-    margin: 0 0 52px auto;
-    color: rgba(239,239,235,.5);
-    font-size: 10px;
-    line-height: 1.55;
-}
-
-.cosmic-intro p { margin: 16px 0; }
-.cosmic-intro-line { display: block; width: 100%; height: 1px; background: rgba(255,255,255,.16); }
-
-.photo-project {
-    position: relative;
-    min-height: 1100px;
-}
-
-.photo-project > .project-number {
-    color: rgba(239,239,235,.35);
-    font-family: monospace;
-    font-size: 10px;
-}
-
-.cosmic-theme-title {
-    margin: 8px 0 28px;
-    font-size: clamp(20px, 2.2vw, 34px);
-    font-weight: 400;
-    line-height: 1.05;
-    letter-spacing: -.025em;
-    color: rgba(239,239,235,.82);
-}
-
-.cosmic-theme {
-    min-height: 1120px;
-}
-
-.cosmic-gallery {
-    width: calc(100% + 12vw);
-    margin-left: -6vw;
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    cursor: grab;
-    overscroll-behavior-x: contain;
-}
-
-.cosmic-gallery::-webkit-scrollbar { display: none; }
-.cosmic-gallery.is-dragging { cursor: grabbing; scroll-behavior: auto; }
-
-.cosmic-gallery-slide {
-    position: relative;
-    flex: 0 0 100%;
-    scroll-snap-align: center;
-    margin: 0;
-    padding: 0 6vw;
-}
-
-.cosmic-image {
-    width: 100%;
-    height: 66vh;
-    min-height: 420px;
-
-    display: block;
-
-    object-fit: contain;
-
-    background: #080909;
-
-    border: 1px solid rgba(239,239,235,.12);
-
-    color: rgba(239,239,235,.24);
-    font-family: monospace;
-    font-size: 9px;
-    letter-spacing: .04em;
-
-    transition:
-        border-color .5s ease,
-        transform .8s cubic-bezier(.77,0,.175,1);
-}
-
-.cosmic-gallery-slide:hover .cosmic-image {
-    border-color: rgba(239,239,235,.28);
-    transform: translateY(-4px);
-}
-
-.cosmic-gallery-slide figcaption {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    padding-top: 13px;
-    color: rgba(239,239,235,.55);
-    font-family: monospace;
-    font-size: 9px;
-    letter-spacing: .015em;
-}
-
-.gallery-hint {
-    margin-top: 13px;
-    color: rgba(239,239,235,.24);
-    font-family: monospace;
-    font-size: 8px;
-    letter-spacing: .06em;
-    text-align: right;
-}
-
-/* Cosmic black hole gateway */
-
-.cosmic-gateway-wrap {
-    min-height: 350px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 40px;
-}
-
-.cosmic-gateway {
-    position: relative;
-    width: 110px;
-    height: 110px;
-    border: 0;
-    padding: 0;
-    background: transparent;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.gateway-core {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 34px;
-    height: 34px;
-    transform: translate(-50%,-50%);
-    border-radius: 50%;
-    background: #000;
-    box-shadow: 0 0 30px rgba(0,0,0,.9), 0 0 10px rgba(255,255,255,.06);
-}
-
-.gateway-orbit {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%) rotate(0deg);
-    border: 1px solid rgba(239,239,235,.18);
-    border-radius: 50%;
-    transition: width .7s ease, height .7s ease, border-color .7s ease, transform .8s ease;
-}
-
-.gateway-orbit-01 { width: 66px; height: 66px; }
-.gateway-orbit-02 { width: 95px; height: 43px; transform: translate(-50%,-50%) rotate(-24deg); border-color: rgba(239,239,235,.1); }
-
-.cosmic-gateway:hover .gateway-orbit-01 { width: 85px; height: 85px; border-color: rgba(239,239,235,.5); }
-.cosmic-gateway:hover .gateway-orbit-02 { width: 112px; height: 50px; transform: translate(-50%,-50%) rotate(-34deg); border-color: rgba(239,239,235,.28); }
-.cosmic-gateway:hover .gateway-core { box-shadow: 0 0 40px rgba(0,0,0,1), 0 0 15px rgba(255,255,255,.1); }
-
-.gateway-label {
-    margin-top: 15px;
-    color: rgba(239,239,235,.28);
-    text-transform: lowercase;
-    font-family: monospace;
-    font-size: 8px;
-    letter-spacing: .08em;
-}
-
-body.gateway-opening .cosmic-gateway {
-    animation: gateway-collapse .95s cubic-bezier(.77,0,.175,1) forwards;
-}
-
-body.gateway-opening .cosmic-gateway-wrap { opacity: 1; }
-body.gateway-opening main { filter: blur(1px); }
-
-/* =========================================================
-   UNIT 02 — PROJECTS
-   Same spatial language, now more concrete
-========================================================= */
-
-.projects {
-    min-height: 100vh;
-    background: #090a0a;
-    color: var(--white);
-}
-
-.projects::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 6%;
-    width: 88%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
-}
-
-.project {
-    position: relative;
-    min-height: 820px;
-    margin-bottom: 160px;
-}
-
-.project-number {
-    font-family: monospace;
-    font-size: 10px;
-    color: rgba(239,239,235,.36);
-    letter-spacing: .02em;
-}
-
-.project h1 {
-    margin: 0;
-    font-size: clamp(22px, 2.7vw, 42px);
-    font-weight: 400;
-    line-height: 1.05;
-    letter-spacing: -.035em;
-}
-
-.project-info {
-    font-family: monospace;
-    font-size: 10px;
-    line-height: 1.5;
-    color: rgba(239,239,235,.4);
-}
-
-.image-placeholder {
-    background: linear-gradient(145deg, #151717, #0c0d0d);
-    border: 1px solid rgba(239,239,235,.12);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(239,239,235,.24);
-    font-family: monospace;
-    font-size: 9px;
-    letter-spacing: .04em;
-    transition: background .4s ease, border-color .4s ease, transform .7s cubic-bezier(.77,0,.175,1), box-shadow .5s ease;
-}
-
-.image-placeholder:hover {
-    background: linear-gradient(145deg, #191b1b, #0f1010);
-    border-color: rgba(239,239,235,.3);
-    transform: translateY(-5px);
-    box-shadow: 0 20px 55px rgba(0,0,0,.32);
-}
-
-.project-001 h1 { position: absolute; left: 7vw; top: 45px; }
-.project-001 .project-info { position: absolute; left: 7vw; top: 105px; }
-.project-001 .image-large { position: absolute; width: 58vw; height: 58vh; right: 2vw; top: 130px; }
-.project-001 .image-small { position: absolute; width: 21vw; height: 25vh; left: 4vw; bottom: 10px; }
-.project-description { position: absolute; width: 190px; right: 4vw; bottom: 5px; font-size: 11px; color: rgba(239,239,235,.4); line-height: 1.5; }
-
-.project-002 { min-height: 850px; }
-.project-002 h1 { position: absolute; left: 34vw; top: 70px; font-size: clamp(21px, 2.5vw, 38px); letter-spacing: .01em; line-height: 1.1; }
-.project-002 .project-info { position: absolute; left: 34vw; top: 205px; }
-.project-002 .image-medium { position: absolute; width: 35vw; height: 48vh; left: 7vw; top: 320px; }
-
-.project-003 h1 { position: absolute; left: 2vw; top: 65px; }
-.project-003 .image-wide { position: absolute; width: 68vw; height: 55vh; right: 0; top: 210px; }
-.project-003 .project-info { position: absolute; left: 2vw; bottom: 55px; }
-
-.project-004 { min-height: 650px; margin-bottom: 80px; }
-.project-004 h1 { position: absolute; left: 40vw; top: 80px; }
-.project-004 .image-small { position: absolute; width: 27vw; height: 35vh; left: 9vw; top: 260px; }
-
-/* body transition sentinel */
-#writing-threshold-sentinel {
-    height: 1px;
-    width: 100%;
-}
-
-/* =========================================================
-   PROJECTS -> WRITING TRANSITION
-========================================================= */
-
-#writing-threshold {
-    position: fixed;
-    inset: 0;
-    z-index: 850;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    opacity: 0;
-    visibility: hidden;
-    background: rgba(0,0,0,.78);
-    transition: opacity .35s ease, visibility .35s ease;
-}
-
-#writing-threshold.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.face-threshold-line {
-    width: min(34vw, 360px);
-    height: min(72vh, 600px);
-    overflow: visible;
-    filter: drop-shadow(0 0 12px rgba(255,255,255,.08));
-}
-
-.face-line {
-    fill: none;
-    stroke: rgba(255,255,255,.9);
-    stroke-width: 1.05;
-    vector-effect: non-scaling-stroke;
-    opacity: 0;
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-}
-
-#writing-threshold.active .face-line {
-    animation: face-draw 1.5s cubic-bezier(.77,0,.175,1) forwards;
-}
-
-#writing-threshold.active .face-line:nth-child(2) { animation-delay: .08s; }
-#writing-threshold.active .face-line:nth-child(3) { animation-delay: .15s; }
-#writing-threshold.active .face-line:nth-child(4) { animation-delay: .22s; }
-#writing-threshold.active .face-line:nth-child(5) { animation-delay: .29s; }
-#writing-threshold.active .face-line:nth-child(6) { animation-delay: .36s; }
-#writing-threshold.active .face-line:nth-child(7) { animation-delay: .43s; }
-#writing-threshold.active .face-line:nth-child(8) { animation-delay: .50s; }
-#writing-threshold.active .face-line:nth-child(9) { animation-delay: .57s; }
-#writing-threshold.active .face-line:nth-child(10) { animation-delay: .64s; }
-#writing-threshold.active .face-line:nth-child(11) { animation-delay: .71s; }
-#writing-threshold.active .face-line:nth-child(12) { animation-delay: .78s; }
-
-/* =========================================================
-   UNIT 03 — WRITING ON MY BODY
-========================================================= */
-
-.writing {
-    min-height: 1250px;
-    background: #050606;
-}
-
-.writing::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 110px;
-    bottom: 110px;
-    width: 1px;
-    background: linear-gradient(180deg, transparent, rgba(255,255,255,.09), transparent);
-}
-
-.writing-orbit {
-    position: absolute;
-    border: 1px solid rgba(255,255,255,.07);
-    border-radius: 50%;
-    pointer-events: none;
-}
-
-.writing-orbit-01 { width: 340px; height: 340px; left: 50%; top: 300px; transform: translateX(-50%); }
-.writing-orbit-02 { width: 520px; height: 520px; left: 50%; top: 210px; transform: translateX(-50%); border-color: rgba(255,255,255,.04); }
-
-.writing-mark {
-    position: absolute;
-    right: 7vw;
-    top: 170px;
-    font-family: monospace;
-    font-size: 8px;
-    color: rgba(255,255,255,.22);
-}
-
-.writing-fragment {
-    position: absolute;
-    max-width: 430px;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(15px, 1.6vw, 21px);
-    line-height: 1.55;
-    color: rgba(239,239,235,.72);
-    letter-spacing: -.01em;
-    opacity: .78;
-    transition: opacity .6s ease, transform .9s cubic-bezier(.77,0,.175,1), color .5s ease;
-}
-
-.fragment-01 { left: 8vw; top: 270px; }
-.fragment-02 { right: 10vw; top: 535px; }
-.fragment-03 { left: 25vw; top: 790px; color: rgba(239,239,235,.43); }
-.fragment-04 { right: 22vw; top: 1030px; color: rgba(239,239,235,.32); font-size: 28px; }
-
-.writing-fragment:hover {
-    opacity: 1;
-    color: var(--white);
-}
-
-/* =========================================================
-   FINAL ABOUT / CONTACT
-========================================================= */
-
-.final-space {
-    min-height: 580px;
-    background: #070808;
-    padding-bottom: 100px;
-}
-
-.final-grid {
-    display: grid;
-    grid-template-columns: 1.2fr .8fr;
-    gap: 10vw;
-    margin-left: 8vw;
-    max-width: 850px;
-}
-
-.final-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: .1em;
-    color: rgba(239,239,235,.36);
-    margin-bottom: 28px;
-}
-
-.about-text {
-    max-width: 390px;
-    font-size: 14px;
-    line-height: 1.5;
-    color: rgba(239,239,235,.62);
-}
-
-.about-text p { margin: 0 0 30px; }
-
-.contact-info {
-    display: flex;
-    flex-direction: column;
-    gap: 11px;
-}
-
-.contact-info a {
-    color: rgba(239,239,235,.62);
-    text-decoration: none;
-    font-size: 12px;
-    transition: color .25s ease;
-}
-
-.contact-info a:hover { color: var(--white); }
-
-.final-summary {
-    margin: 120px 0 0 8vw;
-    color: rgba(239,239,235,.2);
-    font-family: monospace;
-    font-size: 8px;
-    letter-spacing: .08em;
-}
-
-/* =========================================================
-   CLOSING THRESHOLD
-========================================================= */
-
-.closing-threshold {
-    position: relative;
-    min-height: 80vh;
-    margin-left: 220px;
-    background: #020303;
-    border-top: 1px solid rgba(255,255,255,.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-#closing-dot {
-    position: relative;
-    width: 12px;
-    height: 12px;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-}
-
-.closing-dot-core {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 5px;
-    height: 5px;
-    transform: translate(-50%,-50%);
-    border-radius: 50%;
-    background: var(--white);
-    box-shadow: 0 0 6px rgba(255,255,255,.75), 0 0 18px rgba(255,255,255,.2);
-}
-
-.closing-dot-glow {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 80px;
-    height: 80px;
-    transform: translate(-50%,-50%);
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,.07), transparent 70%);
-    transition: width .5s ease, height .5s ease;
-}
-
-#closing-dot:hover .closing-dot-glow { width: 130px; height: 130px; }
-
-.closing-year {
-    position: absolute;
-    left: 20px;
-    bottom: 20px;
-    color: rgba(239,239,235,.23);
-    font-family: monospace;
-    font-size: 8px;
-}
-
-/* =========================================================
-   ANIMATIONS
-========================================================= */
-
-@keyframes threshold-breath {
-    0%,100% { transform: scale(.95); opacity: .65; }
-    50% { transform: scale(1.06); opacity: 1; }
-}
-
-@keyframes threshold-ring-expand {
-    0% { width: 8px; height: 8px; opacity: .1; }
-    45% { opacity: 1; }
-    100% { width: 220vw; height: 220vw; opacity: 0; }
-}
-
-@keyframes threshold-flash {
-    0% { transform: translate(-50%,-50%) scale(.05); opacity: 0; }
-    35% { opacity: 1; }
-    65% { opacity: .35; }
-    100% { transform: translate(-50%,-50%) scale(5); opacity: 0; }
-}
-
-@keyframes threshold-collapse {
-    0% { width: 5px; height: 5px; opacity: 1; }
-    70% { opacity: 1; }
-    100% { width: 300vw; height: 300vw; opacity: 1; }
-}
-
-@keyframes gateway-collapse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(.3); opacity: 1; }
-    100% { transform: scale(3.6); opacity: 0; }
-}
-
-@keyframes face-draw {
-    0% { opacity: 0; stroke-dashoffset: 800; }
-    15% { opacity: 1; }
-    100% { opacity: 1; stroke-dashoffset: 0; }
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 700px) {
-
-    .sidebar { display: none; }
-
-    .mobile-header {
-        display: flex;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        padding: 15px;
-        justify-content: space-between;
-        z-index: 100;
-        background: rgba(5,6,6,.84);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid rgba(255,255,255,.1);
-    }
-
-    .mobile-header a,
-    .mobile-header button {
-        color: var(--white);
-        font-family: inherit;
-        font-size: 12px;
-        text-decoration: none;
-        background: none;
-        border: none;
-        padding: 0;
-    }
-
-    .index-menu {
-        position: fixed;
-        display: none;
-        top: 47px;
-        left: 0;
-        width: 100%;
-        padding: 20px 15px;
-        background: rgba(5,6,6,.96);
-        border-bottom: 1px solid rgba(255,255,255,.1);
-        z-index: 90;
-    }
-
-    .index-menu.open { display: block; }
-
-    .index-menu a {
-        display: block;
-        color: rgba(239,239,235,.64);
-        text-decoration: none;
-        font-size: 12px;
-        margin-bottom: 12px;
-    }
-
-    main { margin-left: 0; }
-
-    .section {
-        min-height: 100vh;
-        padding: 80px 15px 100px;
-    }
-
-    .cosmic-intro {
-        width: 72%;
-        margin: 35px 0 55px auto;
-    }
-
-    .cosmic-gallery {
-        width: calc(100% + 30px);
-        margin-left: -15px;
-    }
-
-    .cosmic-gallery-slide { padding: 0 15px; }
-
-    .cosmic-image {
-        height: 60vh;
-        min-height: 360px;
-    }
-
-    .gallery-hint { padding-right: 2px; }
-
-    .cosmic-gateway-wrap { min-height: 260px; }
-
-    .project {
-        min-height: 700px;
-    }
-
-    .project h1 { font-size: 28px; }
-
-    .project-001 h1,
-    .project-001 .project-info,
-    .project-001 .image-large,
-    .project-001 .image-small,
-    .project-description,
-    .project-002 h1,
-    .project-002 .project-info,
-    .project-002 .image-medium,
-    .project-003 h1,
-    .project-003 .image-wide,
-    .project-003 .project-info,
-    .project-004 h1,
-    .project-004 .image-small {
-        position: relative;
-        left: auto;
-        right: auto;
-        top: auto;
-        bottom: auto;
-        width: 100%;
-        margin-bottom: 25px;
-    }
-
-    .image-placeholder {
-        height: 42vh !important;
-        margin-bottom: 25px;
-    }
-
-    .face-threshold-line {
-        width: 52vw;
-        height: 62vh;
-    }
-
-    .writing {
-        min-height: 1300px;
-    }
-
-    .writing::before { display: none; }
-
-    .writing-orbit-01 {
-        width: 230px;
-        height: 230px;
-        top: 420px;
-    }
-
-    .writing-orbit-02 {
-        width: 340px;
-        height: 340px;
-        top: 365px;
-    }
-
-    .writing-fragment {
-        position: relative;
-        left: auto;
-        right: auto;
-        top: auto;
-        max-width: 86%;
-        margin: 130px 0;
-        font-size: 17px;
-    }
-
-    .fragment-01 { margin-top: 180px; }
-    .fragment-02 { margin-left: 15%; }
-    .fragment-03 { margin-left: 8%; }
-    .fragment-04 { margin-left: 62%; }
-
-    .final-space { min-height: 650px; }
-
-    .final-grid {
-        grid-template-columns: 1fr;
-        gap: 70px;
-        margin-left: 0;
-    }
-
-    .final-summary { margin-left: 0; margin-top: 110px; }
-
-    .closing-threshold {
-        margin-left: 0;
-        min-height: 75vh;
-    }
-}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Isa Wu</title>
+<link href="style.css" rel="stylesheet"/>
+</head>
+<body>
+<!-- =====================================================
+         THRESHOLD INTRO
+         ===================================================== -->
+<div aria-hidden="true" id="threshold-overlay">
+<div id="cursor-light"></div>
+<button aria-label="Enter Isa Wu's world" id="threshold-dot" type="button">
+<span class="threshold-dot-core"></span>
+<span class="threshold-dot-glow"></span>
+</button>
+<div id="threshold-ring"></div>
+<div id="threshold-light">
+<span></span>
+<span></span>
+<span></span>
+</div>
+<div id="threshold-void"></div>
+<div id="threshold-word">THRESHOLD</div>
+</div>
+<!-- SITE ATMOSPHERE -->
+<div aria-hidden="true" id="site-atmosphere">
+<div class="atmosphere-light atmosphere-light-01"></div>
+<div class="atmosphere-light atmosphere-light-02"></div>
+<div class="atmosphere-grain"></div>
+</div>
+<!-- LEFT SIDEBAR -->
+<aside class="sidebar">
+<a class="site-name" href="#top">Isa Wu</a>
+<nav class="side-nav">
+<div class="nav-group">
+<a class="nav-title" data-unit-link="cosmic" href="#cosmic-field">
+                    Cosmic field
+                </a>
+<a href="#lost-city">01: A Lost City Where<br/>I Call Home</a>
+<a href="#cienaga">02: Ciénaga</a>
+<a href="#untitled-1">03: Untitled 1</a>
+</div>
+<div class="nav-group">
+<a class="nav-title" data-unit-link="projects" href="#projects">
+                    Projects
+                </a>
+<a href="#lotus">001: Lotus</a>
+<a href="#letter">002: A Letter for<br/>Netoсhka Nezvanova</a>
+<a href="#double-memory">003: My Double Memory</a>
+<a href="#jiaji">004: I Am Not Jiayi</a>
+</div>
+<div class="nav-group">
+<a class="nav-title" data-unit-link="writing" href="#writing">
+                    Writing on my body
+                </a>
+</div>
+<div class="nav-group">
+<a class="nav-title" href="#about">About</a>
+<a class="nav-title" href="#contact">Contact</a>
+</div>
+</nav>
+</aside>
+<!-- MOBILE HEADER -->
+<header class="mobile-header">
+<a href="#top">Isa Wu</a>
+<button id="indexButton" type="button">Index</button>
+</header>
+<!-- MOBILE INDEX -->
+<nav class="index-menu" id="indexMenu">
+<a href="#cosmic-field">Cosmic field</a>
+<a href="#lost-city">01: A Lost City Where I Call Home</a>
+<a href="#cienaga">02: Ciénaga</a>
+<a href="#untitled-1">03: Untitled 1</a>
+<a href="#projects">Projects</a>
+<a href="#lotus">001: Lotus</a>
+<a href="#letter">002: A Letter for Netoсhka Nezvanova</a>
+<a href="#double-memory">003: My Double Memory</a>
+<a href="#jiaji">004: I Am Not Jiayi</a>
+<a href="#writing">Writing on my body</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+</nav>
+<main data-site-state="threshold" id="top">
+<!-- =================================================
+             UNIT 01 — COSMIC FIELD
+             Horizontal image book
+             ================================================= -->
+<section class="section cosmic-field" data-unit="cosmic" id="cosmic-field">
+<div class="section-title">Cosmic field</div>
+<div class="cosmic-intro">
+<span class="cosmic-intro-line"></span>
+<p>A field of stillness</p>
+<span class="cosmic-intro-line"></span>
+</div>
+<article class="photo-project cosmic-theme" id="lost-city">
+<div class="project-number">01:</div>
+<h1 class="cosmic-theme-title">A Lost City Where I Call Home</h1>
+<div class="cosmic-gallery" id="cosmic-gallery-lost-city">
+<figure class="cosmic-gallery-slide is-current">
+<img alt="A Lost City Where I Call Home, photograph 01" class="cosmic-image" loading="eager" src="src/assets/cosmic-field/lost-city/01.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>01 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 02" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/02.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>02 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 03" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/03.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>03 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 04" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/04.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>04 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 05" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/05.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>05 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 06" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/06.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>06 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 07" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/07.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>07 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 08" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/08.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>08 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 09" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/09.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>09 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 10" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/10.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>10 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 11" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/11.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>11 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 12" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/12.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>12 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 13" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/13.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>13 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 14" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/14.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>14 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 15" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/15.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>15 / 15</span>
+</figcaption>
+</figure>
+</div>
+<div class="gallery-hint">drag / scroll horizontally</div>
+</article>
+<article class="photo-project cosmic-theme" id="cienaga">
+<div class="project-number">02:</div>
+<h1 class="cosmic-theme-title">Ciénaga</h1>
+<div class="cosmic-gallery" id="cosmic-gallery-cienaga">
+<figure class="cosmic-gallery-slide is-current">
+<img alt="Ciénaga, photograph 01" class="cosmic-image" loading="eager" src="src/assets/cosmic-field/cienaga/01.jpg"/>
+<figcaption>
+<span>Ciénaga</span>
+<span>01 / 05</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Ciénaga, photograph 02" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/cienaga/02.jpg"/>
+<figcaption>
+<span>Ciénaga</span>
+<span>02 / 05</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Ciénaga, photograph 03" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/cienaga/03.jpg"/>
+<figcaption>
+<span>Ciénaga</span>
+<span>03 / 05</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Ciénaga, photograph 04" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/cienaga/04.jpg"/>
+<figcaption>
+<span>Ciénaga</span>
+<span>04 / 05</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Ciénaga, photograph 05" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/cienaga/05.jpg"/>
+<figcaption>
+<span>Ciénaga</span>
+<span>05 / 05</span>
+</figcaption>
+</figure>
+</div>
+<div class="gallery-hint">drag / scroll horizontally</div>
+</article>
+<article class="photo-project cosmic-theme" id="untitled-1">
+<div class="project-number">03:</div>
+<h1 class="cosmic-theme-title">Untitled 1</h1>
+<div class="cosmic-gallery" id="cosmic-gallery-untitled-1">
+<figure class="cosmic-gallery-slide is-current">
+<img alt="Untitled 1, photograph 01" class="cosmic-image" loading="eager" src="src/assets/cosmic-field/untitled-1/01.jpg"/>
+<figcaption>
+<span>Untitled 1</span>
+<span>01 / 08</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Untitled 1, photograph 02" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/untitled-1/02.jpg"/>
+<figcaption>
+<span>Untitled 1</span>
+<span>02 / 08</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Untitled 1, photograph 03" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/untitled-1/03.jpg"/>
+<figcaption>
+<span>Untitled 1</span>
+<span>03 / 08</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Untitled 1, photograph 04" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/untitled-1/04.jpg"/>
+<figcaption>
+<span>Untitled 1</span>
+<span>04 / 08</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Untitled 1, photograph 05" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/untitled-1/05.jpg"/>
+<figcaption>
+<span>Untitled 1</span>
+<span>05 / 08</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Untitled 1, photograph 06" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/untitled-1/06.jpg"/>
+<figcaption>
+<span>Untitled 1</span>
+<span>06 / 08</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Untitled 1, photograph 07" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/untitled-1/07.jpg"/>
+<figcaption>
+<span>Untitled 1</span>
+<span>07 / 08</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Untitled 1, photograph 08" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/untitled-1/08.jpg"/>
+<figcaption>
+<span>Untitled 1</span>
+<span>08 / 08</span>
+</figcaption>
+</figure>
+</div>
+<div class="gallery-hint">drag / scroll horizontally</div>
+</article>
+<!-- THRESHOLD TO UNIT 02 -->
+<div class="cosmic-gateway-wrap">
+<button aria-label="Enter Projects" class="cosmic-gateway" id="cosmic-gateway" type="button">
+<span class="gateway-orbit gateway-orbit-01"></span>
+<span class="gateway-orbit gateway-orbit-02"></span>
+<span class="gateway-core"></span>
+</button>
+<span class="gateway-label">enter projects</span>
+</div>
+</section>
+<!-- =================================================
+             UNIT 02 — PROJECTS
+             Vertical sequence, four works
+             ================================================= -->
+<section class="section projects" data-unit="projects" id="projects">
+<div class="section-title">Projects</div>
+<article class="project project-001" id="lotus">
+<div class="project-number">001:</div>
+<h1>Lotus</h1>
+<div class="project-info">2026<br/>Short film</div>
+<div class="image-placeholder image-large">
+<img src="src/assets/projects/lotus/01.jpg" alt="Lotus, still 01" loading="eager"/>
+</div>
+<div class="image-placeholder image-small">
+<img src="src/assets/projects/lotus/02.jpg" alt="Lotus, still 02" loading="lazy"/>
+</div>
+<div class="project-description">
+<p>A girl returns with her mother to their ancestral village to honor her grandmother.</p>
+</div>
+</article>
+<article class="project project-002" id="letter">
+<div class="project-number">002:</div>
+<h1>A Letter for<br/>Netoсhka<br/>Nezvanova</h1>
+<div class="project-info">net art work</div>
+<div class="project-description project-description-002">
+<p>A net art work developed through the space of the letter, the screen, and the digital image.</p>
+</div>
+<div class="image-placeholder image-medium letter-images">
+<img src="src/assets/projects/letter/01.jpg" alt="A Letter for Netochka Nezvanova, image 01" loading="lazy"/>
+<img src="src/assets/projects/letter/02.jpg" alt="A Letter for Netochka Nezvanova, image 02" loading="lazy"/>
+</div>
+</article>
+<article class="project project-003" id="double-memory">
+<div class="project-number">003:</div>
+<h1>My Double Memory</h1>
+<div class="image-placeholder image-wide">
+<img src="src/assets/projects/double-memory/01.jpg" alt="My Double Memory" loading="lazy"/>
+</div>
+<div class="project-info">experimental</div>
+<div class="project-description project-description-003">
+<p>An experimental work moving between remembered images and their doubles.</p>
+</div>
+</article>
+<article class="project project-004" id="jiaji">
+<div class="project-number">004:</div>
+<h1>I Am Not Jiayi</h1>
+<div class="image-placeholder image-small">
+<img src="src/assets/projects/jiayi/01.jpg" alt="I Am Not Jiayi" loading="lazy"/>
+</div>
+<div class="project-info">archive / found footage</div>
+<div class="project-description project-description-004">
+<p>An archive-based work assembled from found visual material and moving images.</p>
+</div>
+</article>
+</section>
+<!-- =================================================
+             UNIT 03 — WRITING ON MY BODY
+             Floating fragments
+             ================================================= -->
+<section class="section writing" data-unit="writing" id="writing">
+<div class="section-title">Writing on my body</div>
+<div class="writing-orbit writing-orbit-01"></div>
+<div class="writing-orbit writing-orbit-02"></div>
+<div class="writing-mark">03</div>
+<div class="writing-fragment fragment-01">
+                I remember being born among a swarm of pulsating white particles<br/>
+                The world was black<br/>
+                Black and white, like exhaustion itself<br/>
+                Holding a shifting vitality
+            </div>
+<div class="writing-fragment fragment-02">
+                In memory, there was a light, ethereal mosquito net<br/>
+                A cool bamboo chair<br/>
+                A bamboo bed<br/>
+                A warm body
+            </div>
+<div class="writing-fragment fragment-03">
+                Water<br/>
+                Transparent water<br/>
+                Held by a beautiful body<br/>
+                A living body<br/>
+                A calm body
+            </div>
+<div class="writing-fragment fragment-04">...</div>
+</section>
+<!-- =================================================
+             ABOUT / CONTACT / SUMMARY
+             One final simple surface
+             ================================================= -->
+<section class="section final-space" id="final-space">
+<div class="section-title">About / Contact</div>
+<div class="final-grid">
+<div class="final-block" id="about">
+<div class="final-label">About</div>
+<div class="about-text">
+<p>I am filmmaker and artist, drawn to exploring diverse artistic media and their intersections, with a particular focus on technofeminism, phenomenology, hauntology, and memory.</p>
+</div>
+</div>
+<div class="final-block" id="contact">
+<div class="final-label">Contact</div>
+<div class="contact-info">
+<a href="mailto:isa2605824@gmail.com">isa2605824@gmail.com</a>
+<a href="https://www.instagram.com/nubelit_" rel="noopener noreferrer" target="_blank">@nubelit_</a>
+<a href="#">Vimeo</a>
+</div>
+</div>
+</div>
+<div class="final-summary">
+                Film / Moving Image / Writing / Image
+            </div>
+</section>
+</main>
+<!-- =====================================================
+         CLOSING THRESHOLD
+         Returns to the same first black screen
+         ===================================================== -->
+<footer class="closing-threshold" id="closing-threshold">
+<button aria-label="Return to threshold" id="closing-dot" type="button">
+<span class="closing-dot-core"></span>
+<span class="closing-dot-glow"></span>
+</button>
+<span class="closing-year">Isa Wu · 2026</span>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
