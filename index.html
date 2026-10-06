@@ -1,244 +1,3 @@
-
-
-index (4).html
-File
-
-script(1).js
-JavaScript
-
-style (2).css
-File
-这个网站的搭建思路我们之后再考虑，现在要紧的是投递驻地我需要这个材料，所以我先按照之前设计的网页来搭建，之后再优化网站设计，我已经有iNdex,script和style,css，只需要链接我的作品就好，帮我看下怎么执行
-
-可以，这一版我已经按照你现在的网站版本改好了。🌿
-
-主要变化只有一处：
-
-Portraying 整个章节移除，改成：
-
-02: Ciénaga
-共 6 张图片，对应：
-
-src/assets/cosmic-field/cienaga/01.jpg
-src/assets/cosmic-field/cienaga/02.jpg
-src/assets/cosmic-field/cienaga/03.jpg
-src/assets/cosmic-field/cienaga/04.jpg
-src/assets/cosmic-field/cienaga/05.jpg
-src/assets/cosmic-field/cienaga/06.jpg
-导航也同步改成了：
-
-<a href="#cienaga">02: Ciénaga</a>
-图片编号是 01 / 06 到 06 / 06。
-
-其他全部保持现在的版本不动，包括：
-
-A Lost City Where I Call Home
-Untitled 1
-四个 Projects
-Letter 的两张图片
-Writing on my body
-About / Contact
-所有原有交互和 script.js
-
-直接下载这个新版 index.html：
-
-下载修改好的 index_cienaga.html
-
-你只需要确保你的文件夹是：
-
-src/
-└── assets/
-    └── cosmic-field/
-        ├── lost-city/
-        ├── cienaga/
-        │   ├── 01.jpg
-        │   ├── 02.jpg
-        │   ├── 03.jpg
-        │   ├── 04.jpg
-        │   ├── 05.jpg
-        │   └── 06.jpg
-        └── untitled-1/
-这样打开后 Ciénaga 就会直接进入原来 Portraying 的位置，并继续使用原来的横向一张一张浏览方式。
-
-
-
-index_cienaga.html
-HTML
-
-
-我已经把5张图片放进了assets/cosmic-field/cienaga里
-
-可以，已经改成 5 张 Ciénaga 图片。之前的第 6 张已经删除，编号也同步改成：
-
-01 / 05
-02 / 05
-03 / 05
-04 / 05
-05 / 05
-现在网站对应的路径就是：
-
-src/assets/cosmic-field/cienaga/
-├── 01.jpg
-├── 02.jpg
-├── 03.jpg
-├── 04.jpg
-└── 05.jpg
-其他内容全部不变。
-
-下载更新后的 index.html
-
-
-
-index_cienaga_5images.html
-HTML
-
-
-给我调整好的所有code
-
-可以。现在给你的是这一版网站的完整最终代码，已经包含目前我们一路改过的所有内容：
-
-index.html
-已经是 Ciénaga 5 张图片版本，删除 Portraying，Projects 四个作品已经链接，Letter 两张图，Writing on my body 的英文文本也已经更新。
-
-style.css
-包含 Projects 图片显示、Letter 两图布局，以及现有的全部视觉样式。
-
-script.js
-保持原来的 Threshold、横向图片浏览、Projects gateway、Writing 互动、返回起始页等功能。
-
-你可以直接分别替换：
-
-下载完整 index.html
-
-下载完整 style.css
-
-下载完整 script.js
-
-也可以直接拿这一整包：
-
-下载完整网站代码包
-
-目前对应的图片结构是：
-
-src/
-└── assets/
-    ├── cosmic-field/
-    │   ├── lost-city/
-    │   │   ├── 01.jpg ... 15.jpg
-    │   ├── cienaga/
-    │   │   ├── 01.jpg
-    │   │   ├── 02.jpg
-    │   │   ├── 03.jpg
-    │   │   ├── 04.jpg
-    │   │   └── 05.jpg
-    │   └── untitled-1/
-    │       ├── 01.jpg ... 08.jpg
-    │
-    └── projects/
-        ├── lotus/
-        │   ├── 01.jpg
-        │   └── 02.jpg
-        ├── letter/
-        │   ├── 01.jpg
-        │   └── 02.jpg
-        ├── double-memory/
-        │   └── 01.jpg
-        └── jiayi/
-            └── 01.jpg
-⚠️ 你现在只需要把这三个代码文件放回你原来的项目位置，图片继续放在你现有的 src/assets/... 里即可。
-
-
-
-index.html
-HTML
-
-
-style.css
-Code
-
-
-script.js
-Code
-
-
-index.html
-
-
-
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
 <!DOCTYPE html>
 
 <html lang="en">
@@ -312,3 +71,381 @@ index.html
 </header>
 <!-- MOBILE INDEX -->
 <nav class="index-menu" id="indexMenu">
+<a href="#cosmic-field">Cosmic field</a>
+<a href="#lost-city">01: A Lost City Where I Call Home</a>
+<a href="#cienaga">02: Ciénaga</a>
+<a href="#untitled-1">03: Untitled 1</a>
+<a href="#projects">Projects</a>
+<a href="#lotus">001: Lotus</a>
+<a href="#letter">002: A Letter for Netoсhka Nezvanova</a>
+<a href="#double-memory">003: My Double Memory</a>
+<a href="#jiaji">004: I Am Not Jiayi</a>
+<a href="#writing">Writing on my body</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+</nav>
+<main data-site-state="threshold" id="top">
+<!-- =================================================
+             UNIT 01 — COSMIC FIELD
+             Horizontal image book
+             ================================================= -->
+<section class="section cosmic-field" data-unit="cosmic" id="cosmic-field">
+<div class="section-title">Cosmic field</div>
+<div class="cosmic-intro">
+<span class="cosmic-intro-line"></span>
+<p>A field of stillness</p>
+<span class="cosmic-intro-line"></span>
+</div>
+<article class="photo-project cosmic-theme" id="lost-city">
+<div class="project-number">01:</div>
+<h1 class="cosmic-theme-title">A Lost City Where I Call Home</h1>
+<div class="cosmic-gallery" id="cosmic-gallery-lost-city">
+<figure class="cosmic-gallery-slide is-current">
+<img alt="A Lost City Where I Call Home, photograph 01" class="cosmic-image" loading="eager" src="src/assets/cosmic-field/lost-city/01.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>01 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 02" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/02.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>02 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 03" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/03.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>03 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 04" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/04.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>04 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 05" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/05.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>05 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 06" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/06.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>06 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 07" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/07.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>07 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 08" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/08.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>08 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 09" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/09.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>09 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 10" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/10.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>10 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 11" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/11.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>11 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 12" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/12.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>12 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 13" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/13.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>13 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 14" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/14.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>14 / 15</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="A Lost City Where I Call Home, photograph 15" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/lost-city/15.jpg"/>
+<figcaption>
+<span>A Lost City Where I Call Home</span>
+<span>15 / 15</span>
+</figcaption>
+</figure>
+</div>
+<div class="gallery-hint">drag / scroll horizontally</div>
+</article>
+<article class="photo-project cosmic-theme" id="cienaga">
+<div class="project-number">02:</div>
+<h1 class="cosmic-theme-title">Ciénaga</h1>
+<div class="cosmic-gallery" id="cosmic-gallery-cienaga">
+<figure class="cosmic-gallery-slide is-current">
+<img alt="Ciénaga, photograph 01" class="cosmic-image" loading="eager" src="src/assets/cosmic-field/cienaga/01.jpg"/>
+<figcaption>
+<span>Ciénaga</span>
+<span>01 / 05</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Ciénaga, photograph 02" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/cienaga/02.jpg"/>
+<figcaption>
+<span>Ciénaga</span>
+<span>02 / 05</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Ciénaga, photograph 03" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/cienaga/03.jpg"/>
+<figcaption>
+<span>Ciénaga</span>
+<span>03 / 05</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Ciénaga, photograph 04" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/cienaga/04.jpg"/>
+<figcaption>
+<span>Ciénaga</span>
+<span>04 / 05</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Ciénaga, photograph 05" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/cienaga/05.jpg"/>
+<figcaption>
+<span>Ciénaga</span>
+<span>05 / 05</span>
+</figcaption>
+</figure>
+</div>
+<div class="gallery-hint">drag / scroll horizontally</div>
+</article>
+<article class="photo-project cosmic-theme" id="untitled-1">
+<div class="project-number">03:</div>
+<h1 class="cosmic-theme-title">Untitled 1</h1>
+<div class="cosmic-gallery" id="cosmic-gallery-untitled-1">
+<figure class="cosmic-gallery-slide is-current">
+<img alt="Untitled 1, photograph 01" class="cosmic-image" loading="eager" src="src/assets/cosmic-field/untitled-1/01.jpg"/>
+<figcaption>
+<span>Untitled 1</span>
+<span>01 / 08</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Untitled 1, photograph 02" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/untitled-1/02.jpg"/>
+<figcaption>
+<span>Untitled 1</span>
+<span>02 / 08</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Untitled 1, photograph 03" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/untitled-1/03.jpg"/>
+<figcaption>
+<span>Untitled 1</span>
+<span>03 / 08</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Untitled 1, photograph 04" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/untitled-1/04.jpg"/>
+<figcaption>
+<span>Untitled 1</span>
+<span>04 / 08</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Untitled 1, photograph 05" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/untitled-1/05.jpg"/>
+<figcaption>
+<span>Untitled 1</span>
+<span>05 / 08</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Untitled 1, photograph 06" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/untitled-1/06.jpg"/>
+<figcaption>
+<span>Untitled 1</span>
+<span>06 / 08</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Untitled 1, photograph 07" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/untitled-1/07.jpg"/>
+<figcaption>
+<span>Untitled 1</span>
+<span>07 / 08</span>
+</figcaption>
+</figure>
+<figure class="cosmic-gallery-slide">
+<img alt="Untitled 1, photograph 08" class="cosmic-image" loading="lazy" src="src/assets/cosmic-field/untitled-1/08.jpg"/>
+<figcaption>
+<span>Untitled 1</span>
+<span>08 / 08</span>
+</figcaption>
+</figure>
+</div>
+<div class="gallery-hint">drag / scroll horizontally</div>
+</article>
+<!-- THRESHOLD TO UNIT 02 -->
+<div class="cosmic-gateway-wrap">
+<button aria-label="Enter Projects" class="cosmic-gateway" id="cosmic-gateway" type="button">
+<span class="gateway-orbit gateway-orbit-01"></span>
+<span class="gateway-orbit gateway-orbit-02"></span>
+<span class="gateway-core"></span>
+</button>
+<span class="gateway-label">enter projects</span>
+</div>
+</section>
+<!-- =================================================
+             UNIT 02 — PROJECTS
+             Vertical sequence, four works
+             ================================================= -->
+<section class="section projects" data-unit="projects" id="projects">
+<div class="section-title">Projects</div>
+<article class="project project-001" id="lotus">
+<div class="project-number">001:</div>
+<h1>Lotus</h1>
+<div class="project-info">2026<br/>Short film</div>
+<div class="image-placeholder image-large">
+<img src="src/assets/projects/lotus/01.jpg" alt="Lotus, still 01" loading="eager"/>
+</div>
+<div class="image-placeholder image-small">
+<img src="src/assets/projects/lotus/02.jpg" alt="Lotus, still 02" loading="lazy"/>
+</div>
+<div class="project-description">
+<p>A girl returns with her mother to their ancestral village to honor her grandmother.</p>
+</div>
+</article>
+<article class="project project-002" id="letter">
+<div class="project-number">002:</div>
+<h1>A Letter for<br/>Netoсhka<br/>Nezvanova</h1>
+<div class="project-info">net art work</div>
+<div class="project-description project-description-002">
+<p>A net art work developed through the space of the letter, the screen, and the digital image.</p>
+</div>
+<div class="image-placeholder image-medium letter-images">
+<img src="src/assets/projects/letter/01.jpg" alt="A Letter for Netochka Nezvanova, image 01" loading="lazy"/>
+<img src="src/assets/projects/letter/02.jpg" alt="A Letter for Netochka Nezvanova, image 02" loading="lazy"/>
+</div>
+</article>
+<article class="project project-003" id="double-memory">
+<div class="project-number">003:</div>
+<h1>My Double Memory</h1>
+<div class="image-placeholder image-wide">
+<img src="src/assets/projects/double-memory/01.jpg" alt="My Double Memory" loading="lazy"/>
+</div>
+<div class="project-info">experimental</div>
+<div class="project-description project-description-003">
+<p>An experimental work moving between remembered images and their doubles.</p>
+</div>
+</article>
+<article class="project project-004" id="jiaji">
+<div class="project-number">004:</div>
+<h1>I Am Not Jiayi</h1>
+<div class="image-placeholder image-small">
+<img src="src/assets/projects/jiayi/01.jpg" alt="I Am Not Jiayi" loading="lazy"/>
+</div>
+<div class="project-info">archive / found footage</div>
+<div class="project-description project-description-004">
+<p>An archive-based work assembled from found visual material and moving images.</p>
+</div>
+</article>
+</section>
+<!-- =================================================
+             UNIT 03 — WRITING ON MY BODY
+             Floating fragments
+             ================================================= -->
+<section class="section writing" data-unit="writing" id="writing">
+<div class="section-title">Writing on my body</div>
+<div class="writing-orbit writing-orbit-01"></div>
+<div class="writing-orbit writing-orbit-02"></div>
+<div class="writing-mark">03</div>
+<div class="writing-fragment fragment-01">
+                I remember being born among a swarm of pulsating white particles<br/>
+                The world was black<br/>
+                Black and white, like exhaustion itself<br/>
+                Holding a shifting vitality
+            </div>
+<div class="writing-fragment fragment-02">
+                In memory, there was a light, ethereal mosquito net<br/>
+                A cool bamboo chair<br/>
+                A bamboo bed<br/>
+                A warm body
+            </div>
+<div class="writing-fragment fragment-03">
+                Water<br/>
+                Transparent water<br/>
+                Held by a beautiful body<br/>
+                A living body<br/>
+                A calm body
+            </div>
+<div class="writing-fragment fragment-04">...</div>
+</section>
+<!-- =================================================
+             ABOUT / CONTACT / SUMMARY
+             One final simple surface
+             ================================================= -->
+<section class="section final-space" id="final-space">
+<div class="section-title">About / Contact</div>
+<div class="final-grid">
+<div class="final-block" id="about">
+<div class="final-label">About</div>
+<div class="about-text">
+<p>I am filmmaker and artist, drawn to exploring diverse artistic media and their intersections, with a particular focus on technofeminism, phenomenology, hauntology, and memory.</p>
+</div>
+</div>
+<div class="final-block" id="contact">
+<div class="final-label">Contact</div>
+<div class="contact-info">
+<a href="mailto:isa2605824@gmail.com">isa2605824@gmail.com</a>
+<a href="https://www.instagram.com/nubelit_" rel="noopener noreferrer" target="_blank">@nubelit_</a>
+<a href="#">Vimeo</a>
+</div>
+</div>
+</div>
+<div class="final-summary">
+                Film / Moving Image / Writing / Image
+            </div>
+</section>
+</main>
+<!-- =====================================================
+         CLOSING THRESHOLD
+         Returns to the same first black screen
+         ===================================================== -->
+<footer class="closing-threshold" id="closing-threshold">
+<button aria-label="Return to threshold" id="closing-dot" type="button">
+<span class="closing-dot-core"></span>
+<span class="closing-dot-glow"></span>
+</button>
+<span class="closing-year">Isa Wu · 2026</span>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
