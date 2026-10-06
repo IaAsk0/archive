@@ -5,22 +5,41 @@
 const body = document.body;
 const main = document.getElementById("top");
 
-const thresholdOverlay = document.getElementById("threshold-overlay");
-const thresholdDot = document.getElementById("threshold-dot");
-const cursorLight = document.getElementById("cursor-light");
+const thresholdOverlay =
+    document.getElementById("threshold-overlay");
 
-const cosmicField = document.getElementById("cosmic-field");
-const projects = document.getElementById("projects");
-const writing = document.getElementById("writing");
-const finalSpace = document.getElementById("final-space");
+const thresholdDot =
+    document.getElementById("threshold-dot");
 
-const cosmicGalleries = document.querySelectorAll(".cosmic-gallery");
-const cosmicGateway = document.getElementById("cosmic-gateway");
+const cursorLight =
+    document.getElementById("cursor-light");
 
-const closingDot = document.getElementById("closing-dot");
+const cosmicField =
+    document.getElementById("cosmic-field");
 
-const indexButton = document.getElementById("indexButton");
-const indexMenu = document.getElementById("indexMenu");
+const projects =
+    document.getElementById("projects");
+
+const writing =
+    document.getElementById("writing");
+
+const finalSpace =
+    document.getElementById("final-space");
+
+const cosmicGalleries =
+    document.querySelectorAll(".cosmic-gallery");
+
+const cosmicGateway =
+    document.getElementById("cosmic-gateway");
+
+const closingDot =
+    document.getElementById("closing-dot");
+
+const indexButton =
+    document.getElementById("indexButton");
+
+const indexMenu =
+    document.getElementById("indexMenu");
 
 let thresholdOpened = false;
 
@@ -31,15 +50,36 @@ let thresholdOpened = false;
 
 if (indexButton && indexMenu) {
 
-    indexButton.addEventListener("click", () => {
-        indexMenu.classList.toggle("open");
-    });
+    indexButton.addEventListener(
+        "click",
+        () => {
 
-    indexMenu.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", () => {
-            indexMenu.classList.remove("open");
-        });
-    });
+            indexMenu.classList.toggle(
+                "open"
+            );
+
+        }
+    );
+
+
+    indexMenu
+        .querySelectorAll("a")
+        .forEach(
+            (link) => {
+
+                link.addEventListener(
+                    "click",
+                    () => {
+
+                        indexMenu.classList.remove(
+                            "open"
+                        );
+
+                    }
+                );
+
+            }
+        );
 
 }
 
@@ -48,30 +88,47 @@ if (indexButton && indexMenu) {
    CURSOR LIGHT
 ========================================================= */
 
-let mouseX = window.innerWidth / 2;
-let mouseY = window.innerHeight / 2;
+let mouseX =
+    window.innerWidth / 2;
+
+let mouseY =
+    window.innerHeight / 2;
 
 let lightX = mouseX;
 let lightY = mouseY;
 
 
-window.addEventListener("mousemove", (event) => {
+window.addEventListener(
+    "mousemove",
+    (event) => {
 
-    mouseX = event.clientX;
-    mouseY = event.clientY;
+        mouseX =
+            event.clientX;
 
-});
+        mouseY =
+            event.clientY;
+
+    }
+);
 
 
 function animateCursorLight() {
 
     if (cursorLight) {
 
-        lightX += (mouseX - lightX) * 0.08;
-        lightY += (mouseY - lightY) * 0.08;
+        lightX +=
+            (mouseX - lightX) *
+            0.08;
 
-        cursorLight.style.left = `${lightX}px`;
-        cursorLight.style.top = `${lightY}px`;
+        lightY +=
+            (mouseY - lightY) *
+            0.08;
+
+        cursorLight.style.left =
+            `${lightX}px`;
+
+        cursorLight.style.top =
+            `${lightY}px`;
 
     }
 
@@ -91,7 +148,9 @@ animateCursorLight();
 
 function enterThreshold() {
 
-    if (thresholdOpened) return;
+    if (thresholdOpened) {
+        return;
+    }
 
     thresholdOpened = true;
 
@@ -100,46 +159,52 @@ function enterThreshold() {
     );
 
 
-    setTimeout(() => {
+    setTimeout(
+        () => {
 
-        body.classList.add(
-            "threshold-complete"
-        );
-
-
-        if (main) {
-
-            main.setAttribute(
-                "data-site-state",
-                "cosmic"
+            body.classList.add(
+                "threshold-complete"
             );
 
-        }
+
+            if (main) {
+
+                main.setAttribute(
+                    "data-site-state",
+                    "cosmic"
+                );
+
+            }
 
 
-        body.setAttribute(
-            "data-threshold-depth",
-            "1"
-        );
+            body.setAttribute(
+                "data-threshold-depth",
+                "1"
+            );
 
-    }, 1050);
-
-
-    setTimeout(() => {
-
-        if (thresholdOverlay) {
-
-            thresholdOverlay.style.pointerEvents =
-                "none";
-
-        }
+        },
+        1050
+    );
 
 
-        body.classList.remove(
-            "threshold-entering"
-        );
+    setTimeout(
+        () => {
 
-    }, 1700);
+            if (thresholdOverlay) {
+
+                thresholdOverlay.style.pointerEvents =
+                    "none";
+
+            }
+
+
+            body.classList.remove(
+                "threshold-entering"
+            );
+
+        },
+        1700
+    );
 
 }
 
@@ -179,11 +244,14 @@ if (thresholdDot) {
    Each book turns horizontally, one image at a time.
 ========================================================= */
 
-function setupCosmicGallery(gallery) {
+function setupCosmicGallery(
+    gallery
+) {
 
     let galleryDragging = false;
 
     let galleryDragStartX = 0;
+
     let galleryScrollStart = 0;
 
 
@@ -200,11 +268,14 @@ function setupCosmicGallery(gallery) {
             slideWidth();
 
 
-        if (!width) return 0;
+        if (!width) {
+            return 0;
+        }
 
 
         return Math.round(
-            gallery.scrollLeft / width
+            gallery.scrollLeft /
+            width
         );
 
     }
@@ -216,7 +287,9 @@ function setupCosmicGallery(gallery) {
             slideWidth();
 
 
-        if (!width) return;
+        if (!width) {
+            return;
+        }
 
 
         const index =
@@ -396,7 +469,9 @@ function setupCosmicGallery(gallery) {
         () => {
 
             if (galleryDragging) {
+
                 stopGalleryDrag();
+
             }
 
         }
@@ -507,32 +582,38 @@ if (cosmicGateway) {
             );
 
 
-            setTimeout(() => {
+            setTimeout(
+                () => {
 
-                if (projects) {
+                    if (projects) {
 
-                    projects.scrollIntoView({
+                        projects.scrollIntoView({
 
-                        behavior:
-                            "auto",
+                            behavior:
+                                "auto",
 
-                        block:
-                            "start"
+                            block:
+                                "start"
 
-                    });
+                        });
 
-                }
+                    }
 
-            }, 700);
+                },
+                700
+            );
 
 
-            setTimeout(() => {
+            setTimeout(
+                () => {
 
-                body.classList.remove(
-                    "gateway-opening"
-                );
+                    body.classList.remove(
+                        "gateway-opening"
+                    );
 
-            }, 1250);
+                },
+                1250
+            );
 
         }
     );
@@ -692,6 +773,7 @@ if (unitSections.length) {
                     0.7
                 ]
             }
+
         );
 
 
@@ -765,7 +847,8 @@ if (writingFragments.length) {
                 (fragment, index) => {
 
                     const strength =
-                        2 + index * 0.7;
+                        2 +
+                        index * 0.7;
 
 
                     const moveX =
@@ -804,27 +887,38 @@ if (closingDot) {
         () => {
 
             if (indexMenu) {
-                indexMenu.classList.remove("open");
+
+                indexMenu.classList.remove(
+                    "open"
+                );
+
             }
 
 
             /* -----------------------------------------
                Reset gallery positions
-               ----------------------------------------- */
+            ----------------------------------------- */
 
-            cosmicGalleries.forEach((gallery) => {
+            cosmicGalleries.forEach(
+                (gallery) => {
 
-                gallery.scrollTo({
-                    left: 0,
-                    behavior: "auto"
-                });
+                    gallery.scrollTo({
 
-            });
+                        left:
+                            0,
+
+                        behavior:
+                            "auto"
+
+                    });
+
+                }
+            );
 
 
             /* -----------------------------------------
                Reset all visual states
-               ----------------------------------------- */
+            ----------------------------------------- */
 
             body.classList.remove(
                 "threshold-complete",
@@ -838,36 +932,31 @@ if (closingDot) {
 
             if (thresholdOverlay) {
 
-                /*
-                    Make the Threshold appear immediately.
-                    No fade-out / fade-in delay here.
-                */
-
-                thresholdOverlay.style.transition = "none";
+                thresholdOverlay.style.transition =
+                    "none";
 
                 thresholdOverlay.style.pointerEvents =
                     "auto";
 
 
-                /* Force browser to apply the reset immediately */
-
                 void thresholdOverlay.offsetWidth;
 
 
-                /* Restore normal transition for the next entry */
+                requestAnimationFrame(
+                    () => {
 
-                requestAnimationFrame(() => {
+                        thresholdOverlay.style.transition =
+                            "";
 
-                    thresholdOverlay.style.transition = "";
-
-                });
+                    }
+                );
 
             }
 
 
             /* -----------------------------------------
                Reset main site state
-               ----------------------------------------- */
+            ----------------------------------------- */
 
             if (main) {
 
@@ -887,25 +976,34 @@ if (closingDot) {
 
             /* -----------------------------------------
                Reset sidebar state
-               ----------------------------------------- */
+            ----------------------------------------- */
 
-            unitLinks.forEach((link) => {
+            unitLinks.forEach(
+                (link) => {
 
-                link.classList.remove(
-                    "is-active"
-                );
+                    link.classList.remove(
+                        "is-active"
+                    );
 
-            });
+                }
+            );
 
 
             /* -----------------------------------------
                Jump directly to the beginning
-               ----------------------------------------- */
+            ----------------------------------------- */
 
             window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: "auto"
+
+                top:
+                    0,
+
+                left:
+                    0,
+
+                behavior:
+                    "auto"
+
             });
 
         }
