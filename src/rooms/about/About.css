@@ -1,0 +1,156 @@
+.about {
+  position: relative;
+  min-height: 100svh;
+  width: 100%;
+  background: #000;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12vh 7vw 6vh;
+}
+
+.about__content {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12vw;
+  padding-top: 10vh;
+}
+
+.about__block {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.about__label {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.38;
+}
+
+.about__text {
+  margin: 0;
+  max-width: 440px;
+  font-size: clamp(
+    18px,
+    2vw,
+    28px
+  );
+  line-height: 1.35;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  opacity: 0.8;
+}
+
+.about__links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.about__links a {
+  width: fit-content;
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 1.4;
+  opacity: 0.7;
+  transition: opacity 300ms ease;
+}
+
+.about__links a:hover {
+  opacity: 1;
+}
+
+.about__closing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 12vh;
+}
+
+.about__threshold {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.about__threshold span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  transform:
+    translate(-50%, -50%);
+  background: rgba(
+    255,
+    255,
+    255,
+    0.96
+  );
+  box-shadow:
+    0 0 8px rgba(
+      255,
+      255,
+      255,
+      0.45
+    ),
+    0 0 20px rgba(
+      255,
+      255,
+      255,
+      0.14
+    );
+  transition:
+    transform 500ms ease,
+    box-shadow 500ms ease;
+}
+
+.about__threshold:hover span {
+  transform:
+    translate(-50%, -50%)
+    scale(1.45);
+
+  box-shadow:
+    0 0 12px rgba(
+      255,
+      255,
+      255,
+      0.62
+    ),
+    0 0 26px rgba(
+      255,
+      255,
+      255,
+      0.22
+    );
+}
+
+@media (max-width: 700px) {
+  .about {
+    padding:
+      10vh 7vw 5vh;
+  }
+
+  .about__content {
+    grid-template-columns: 1fr;
+    gap: 15vh;
+    padding-top: 8vh;
+  }
+
+  .about__text {
+    max-width: none;
+    font-size: 7vw;
+  }
+}
